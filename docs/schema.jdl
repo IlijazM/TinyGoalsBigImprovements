@@ -1,0 +1,31 @@
+// This file is just for orientation of the domain models and doesn't serve anything for the project.
+// Visit https://www.jhipster.tech/jdl-studio/ in order to generate a domain model graph.
+
+entity Category {
+    name String
+    description String
+    color String
+    icon String
+}
+
+enum RepeatType {
+	Daily, Weekly, Monthy, Yearly
+}
+
+entity Goal {
+  activity String
+  description String
+  amount Integer
+  repeatCount Integer
+  repeatType RepeatType
+}
+
+entity Accomplishment {
+  date Instant
+  amount Integer
+}
+
+relationship OneToMany {
+	Category to Goal
+    Goal to Accomplishment
+}
