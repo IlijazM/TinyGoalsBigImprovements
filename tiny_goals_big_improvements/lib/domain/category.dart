@@ -14,8 +14,8 @@ class Category {
   /// The description of the category.
   late String? description;
 
-  /// The color in the category stored as hex colors (e.g. 'ff0000')
-  late String color;
+  /// The color in the category stored as hex colors (e.g. '0xff0000')
+  late int color;
 
   /// The name of the icon of the category.
   late String icon;

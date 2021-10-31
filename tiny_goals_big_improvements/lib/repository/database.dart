@@ -1,28 +1,54 @@
+import 'dart:io';
+
+import 'package:logging/logging.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../core/optional.dart';
 import 'package:sqflite/sqlite_api.dart';
-import 'package:path/path.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-Optional<Database> _databaseSingleton = Optional.absent();
+Database? _databaseSingleton;
+
+Logger _log = Logger("DatabaseFactory");
 
 Future<Database> getDatabase() async {
-  if (_databaseSingleton.isEmpty) {
+  if (_databaseSingleton == null) {
     await _lazyInitDatabase();
   }
-  return _databaseSingleton.value;
+  return _databaseSingleton!;
 }
 
 Future<void> _lazyInitDatabase() async {
+  if (Platform.isWindows || Platform.isLinux) {
+    // Initialize FFI
+    sqfliteFfiInit();
+    // Change the default factory
+    databaseFactory = databaseFactoryFfi;
+  }
   // Open the database and store the reference.
-  final database = openDatabase(
-    // Set the path to the database. Note: Using the `join` function from the
-    // `path` package is best practice to ensure the path is correctly
-    // constructed for each platform.
-    join(await getDatabasesPath(), 'database.db'),
-    // When the database is first created, create a table to store entities.
-    onCreate: _onCreate,
-  );
+  _databaseSingleton = await databaseFactory.openDatabase('/tmp/database.db');
+  _log.info('Database was loaded successfully.');
+
+  _initDb();
 }
 
-void _onCreate(Database database, int version) {}
+void _initDb() {
+  _log.finest(''' executing...
+  CREATE TABLE IF NOT EXISTS `categories` (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+    `name` TEXT NOT NULL,
+    `description` TEXT,
+    `color` INTEGER NOT NULL,
+    `icon` VARCHAR(255) NOT NULL
+  );
+  ''');
+
+  _databaseSingleton?.execute('''
+  CREATE TABLE IF NOT EXISTS `categories` (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+    `name` TEXT NOT NULL,
+    `description` TEXT,
+    `color` INTEGER NOT NULL,
+    `icon` VARCHAR(255) NOT NULL
+  );
+  ''');
+}
