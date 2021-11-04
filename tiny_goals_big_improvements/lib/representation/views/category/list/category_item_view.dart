@@ -6,11 +6,16 @@ import 'package:tiny_goals_big_improvements/representation/views/category/catego
 class CategoryItemView extends StatelessWidget {
   final Category category;
 
-  final CategoryController categoryController;
+  final Function editCallback;
 
-  CategoryItemView(
-      {Key? key, required this.category, required this.categoryController})
-      : super(key: key);
+  final Function deleteCallback;
+
+  CategoryItemView({
+    Key? key,
+    required this.category,
+    required this.editCallback,
+    required this.deleteCallback,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +29,11 @@ class CategoryItemView extends StatelessWidget {
           Text(category.description ?? ''),
           const Spacer(),
           IconButton(
-            onPressed: () {
-              categoryController.editElement(context, category);
-            },
+            onPressed: () => editCallback(),
             icon: const Icon(Icons.edit),
           ),
           IconButton(
-            onPressed: () {
-              categoryController.deleteElement(category);
-            },
+            onPressed: () => deleteCallback(),
             icon: const Icon(Icons.delete),
           ),
         ],

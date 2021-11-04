@@ -1,6 +1,5 @@
 import 'package:logging/logging.dart';
 import 'package:sqflite/sqlite_api.dart';
-import 'package:tiny_goals_big_improvements/core/optional.dart';
 import 'package:tiny_goals_big_improvements/domain/category.dart';
 
 import 'database.dart';

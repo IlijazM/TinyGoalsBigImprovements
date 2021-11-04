@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tiny_goals_big_improvements/representation/views/category/category_controller.dart';
-import 'package:tiny_goals_big_improvements/representation/views/category/category_item/category_item_view.dart';
+import 'package:tiny_goals_big_improvements/representation/views/category/list/category_item_view.dart';
 
 class CategoryView extends StatefulWidget {
   final CategoryController categoryController;
@@ -18,7 +18,7 @@ class _CategoryViewState extends State<CategoryView> {
   @override
   void initState() {
     super.initState();
-    widget.categoryController.loadAllCategories();
+    widget.categoryController.query();
     widget.categoryController.subscribeToCategories(() {
       setState(() {});
     });
@@ -37,17 +37,17 @@ class _CategoryViewState extends State<CategoryView> {
             ),
             const Spacer(),
             IconButton(
-              onPressed: () => widget.categoryController.newElement(context),
+              onPressed: () => widget.categoryController.requestCreate(context),
               icon: const Icon(Icons.add_circle),
             ),
           ],
         ),
-        _getListView(),
+        _buildListView(),
       ],
     );
   }
 
-  Widget _getListView() {
+  Widget _buildListView() {
     if (widget.categoryController.categories == null) {
       return const CircularProgressIndicator();
     }
@@ -55,9 +55,14 @@ class _CategoryViewState extends State<CategoryView> {
     return ListView(
       shrinkWrap: true,
       children: widget.categoryController.categories!
-          .map((e) => CategoryItemView(
-                category: e,
-                categoryController: widget.categoryController,
+          .map((category) => CategoryItemView(
+                category: category,
+                editCallback: () {
+                  widget.categoryController.requestEdit(context, category);
+                },
+                deleteCallback: () {
+                  widget.categoryController.requestDelete(context, category);
+                },
               ))
           .toList(),
     );

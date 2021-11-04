@@ -2,11 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:tiny_goals_big_improvements/domain/category.dart';
+import 'package:tiny_goals_big_improvements/representation/components/custom_dialog.dart';
+import 'package:tiny_goals_big_improvements/representation/components/custom_text_field.dart';
 import 'package:tiny_goals_big_improvements/representation/views/category/category_controller.dart';
+import 'package:tiny_goals_big_improvements/representation/views/category/category_icons.dart';
 
 class CategoryUpdateDialog extends StatefulWidget {
   final CategoryController categoryController;
 
+  /// If a category is passed that means that you try to update an category.
   final Category? category;
 
   CategoryUpdateDialog({
@@ -33,8 +37,8 @@ class _CategoryUpdateDialogState extends State<CategoryUpdateDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleDialog(
-      title: const Text('Update Category'),
+    return CustomDialog(
+      title: 'Update Category',
       children: [
         TextFormField(
           autofocus: true,
@@ -49,24 +53,28 @@ class _CategoryUpdateDialogState extends State<CategoryUpdateDialog> {
           initialValue: category.description,
         ),
         MaterialColorPicker(
+          circleSize: 42.0,
+          elevation: 1,
+          spacing: 6,
           onColorChange: (Color color) {
             category.color = color.value;
           },
           selectedColor: Color(category.color),
         ),
-        Row(
-          children: [
-            Icon(
-              IconData(int.parse(category.icon), fontFamily: 'MaterialIcons'),
-            ),
-            ElevatedButton(onPressed: () {}, child: Text('Choose icon'))
-          ],
-        ),
+        /*DropdownButton(
+          value: categoryIcons[0],
+          icon: const Icon(Icons.arrow_downward),
+          items: categoryIcons
+              .map(
+                (e) => DropdownMenuItem(child: e),
+              )
+              .toList(),
+        ),*/
         Row(
           children: [
             ElevatedButton(
               onPressed: () {
-                widget.categoryController.saveElement(category);
+                widget.categoryController.save(category);
                 Navigator.pop(context, true);
               },
               child: const Text('Save'),
@@ -81,17 +89,5 @@ class _CategoryUpdateDialogState extends State<CategoryUpdateDialog> {
         )
       ],
     );
-    /*
-    return Form(
-      child: Column(
-        children: [
-          Title(
-            color: Colors.black,
-            // TODO: translate
-            child: const Text('Update Category'),
-          ),
-        ],
-      ),
-    ); */
   }
 }

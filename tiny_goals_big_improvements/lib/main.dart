@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
-import 'package:tiny_goals_big_improvements/representation/views/category/category_view.dart';
+import 'package:tiny_goals_big_improvements/representation/views/category/list/category_view.dart';
 
 void main() {
   // Init logger.
