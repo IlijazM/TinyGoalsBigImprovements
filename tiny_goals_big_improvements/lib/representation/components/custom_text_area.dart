@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CustomTextField extends TextFormField {
-  CustomTextField({
+class CustomTextArea extends TextFormField {
+  CustomTextArea({
     required String labelText,
     bool? autofocus,
     FormFieldValidator<String>? validator,
@@ -9,9 +9,14 @@ class CustomTextField extends TextFormField {
     ValueChanged<String>? onChange,
   }) : super(
           autofocus: autofocus ?? false,
-          decoration: InputDecoration(labelText: labelText),
+          decoration: InputDecoration(
+            labelText: labelText,
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+          ),
           validator: validator,
           initialValue: initialValue,
           onChanged: onChange,
+          maxLines: 8,
+          keyboardType: TextInputType.multiline,
         );
 }

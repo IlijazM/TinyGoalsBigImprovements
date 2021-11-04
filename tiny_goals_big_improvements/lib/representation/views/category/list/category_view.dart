@@ -25,27 +25,29 @@ class _CategoryViewState extends State<CategoryView> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
+  Widget build(BuildContext context) => Container(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
           children: [
-            const Text(
-              // TODO: translate
-              'Categories',
-              style: TextStyle(fontWeight: FontWeight.bold),
+            Row(
+              children: [
+                const Text(
+                  // TODO: translate
+                  'Categories',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const Spacer(),
+                IconButton(
+                  onPressed: () =>
+                      widget.categoryController.requestCreate(context),
+                  icon: const Icon(Icons.add_circle),
+                ),
+              ],
             ),
-            const Spacer(),
-            IconButton(
-              onPressed: () => widget.categoryController.requestCreate(context),
-              icon: const Icon(Icons.add_circle),
-            ),
+            _buildListView(),
           ],
         ),
-        _buildListView(),
-      ],
-    );
-  }
+      );
 
   Widget _buildListView() {
     if (widget.categoryController.categories == null) {
