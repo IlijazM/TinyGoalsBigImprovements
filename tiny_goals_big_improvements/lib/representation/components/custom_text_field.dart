@@ -7,11 +7,14 @@ class CustomTextField extends TextFormField {
     FormFieldValidator<String>? validator,
     String? initialValue,
     ValueChanged<String>? onChange,
+    TextInputType? keyboardType,
   }) : super(
           autofocus: autofocus ?? false,
           decoration: InputDecoration(labelText: labelText),
           validator: validator,
           initialValue: initialValue,
           onChanged: onChange,
+          keyboardType: keyboardType,
+          expands: false,
         );
 }

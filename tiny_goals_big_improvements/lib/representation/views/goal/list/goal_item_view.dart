@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tiny_goals_big_improvements/domain/category.dart';
+import 'package:tiny_goals_big_improvements/domain/goal.dart';
 
-class CategoryItemView extends StatelessWidget {
-  final Category category;
+class GoalItemView extends StatelessWidget {
+  final Goal goal;
   final Function editCallback;
   final Function deleteCallback;
 
-  CategoryItemView({
+  GoalItemView({
     Key? key,
-    required this.category,
+    required this.goal,
     required this.editCallback,
     required this.deleteCallback,
   }) : super(key: key);
@@ -20,7 +20,6 @@ class CategoryItemView extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              _buildIcon(),
               _buildText(),
               const Spacer(),
               ..._buildActionButtons(),
@@ -29,23 +28,10 @@ class CategoryItemView extends StatelessWidget {
         ),
       );
 
-  Widget _buildIcon() => Container(
-        margin: const EdgeInsets.fromLTRB(0, 4.0, 16.0, 4.0),
-        child: CircleAvatar(
-          backgroundColor: Color(category.color),
-          foregroundColor: Color(category.color).computeLuminance() > 0.5
-              ? Colors.black
-              : Colors.white,
-          child: Icon(
-            IconData(int.parse(category.icon), fontFamily: 'MaterialIcons'),
-          ),
-        ),
-      );
-
   Widget _buildText() => Column(
         children: [
           Text(
-            category.name,
+            goal.activity,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           // Text(category.description ?? ''),

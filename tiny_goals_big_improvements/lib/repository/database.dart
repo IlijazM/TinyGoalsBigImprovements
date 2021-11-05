@@ -32,23 +32,31 @@ Future<void> _lazyInitDatabase() async {
 }
 
 void _initDb() {
-  _log.finest(''' executing...
-  CREATE TABLE IF NOT EXISTS `categories` (
-    `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-    `name` TEXT NOT NULL,
-    `description` TEXT,
-    `color` INTEGER NOT NULL,
-    `icon` VARCHAR(255) NOT NULL
-  );
-  ''');
+  String sql;
 
-  _databaseSingleton?.execute('''
+  sql = '''
   CREATE TABLE IF NOT EXISTS `categories` (
     `id` INTEGER PRIMARY KEY AUTOINCREMENT,
     `name` TEXT NOT NULL,
     `description` TEXT,
     `color` INTEGER NOT NULL,
-    `icon` VARCHAR(255) NOT NULL
+    `icon` VARCHAR(255) NOT NULL,
   );
-  ''');
+  ''';
+  _log.finest('executing:\n' + sql);
+  _databaseSingleton?.execute(sql);
+
+  sql = '''
+  CREATE TABLE IF NOT EXISTS `goals` (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+    `activity` TEXT NOT NULL,
+    `description` TEXT,
+    `amount` INTEGER NOT NULL,
+    `repeat_count` INTEGER NOT NULL,
+    `repeat_type` VARCHAR(255) NOT NULL,
+    `category_id` INTEGER NOT NULL
+  );
+  ''';
+  _log.finest('executing:\n' + sql);
+  _databaseSingleton?.execute(sql);
 }

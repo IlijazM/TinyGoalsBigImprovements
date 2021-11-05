@@ -46,54 +46,6 @@ class _CategoryUpdateDialogState extends State<CategoryUpdateDialog> {
       title: 'Update Category',
       children: [
         _buildForm(),
-        /*
-        TextFormField(
-          autofocus: true,
-          decoration: const InputDecoration(labelText: 'Category name'),
-          onChanged: (text) => category.name = text,
-          initialValue: category.name,
-        ),
-        TextFormField(
-          maxLines: 8,
-          decoration: const InputDecoration(labelText: 'Category description'),
-          onChanged: (text) => category.description = text,
-          initialValue: category.description,
-        ),
-        MaterialColorPicker(
-          circleSize: 42.0,
-          elevation: 1,
-          spacing: 6,
-          onColorChange: (Color color) {
-            category.color = color.value;
-          },
-          selectedColor: Color(category.color),
-        ),
-        /*DropdownButton(
-          value: categoryIcons[0],
-          icon: const Icon(Icons.arrow_downward),
-          items: categoryIcons
-              .map(
-                (e) => DropdownMenuItem(child: e),
-              )
-              .toList(),
-        ),*/
-        Row(
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                widget.categoryController.save(category);
-                Navigator.pop(context, true);
-              },
-              child: const Text('Save'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context, true);
-              },
-              child: const Text('Cancel'),
-            ),
-          ],
-        ),*/
       ],
     );
   }

@@ -13,8 +13,11 @@ class Accomplishment {
 
   late Goal goal;
 
-  Accomplishment(
-      {required this.date, required this.amount, required this.goal});
+  Accomplishment({
+    required this.date,
+    required this.amount,
+    required this.goal,
+  });
 
   Accomplishment.fromMap(final Map<String, dynamic> map) {
     fromMap(map);

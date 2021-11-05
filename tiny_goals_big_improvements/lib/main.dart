@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:tiny_goals_big_improvements/representation/views/category/list/category_view.dart';
+import 'package:tiny_goals_big_improvements/representation/views/goal/list/goal_view.dart';
 
 void main() {
   // Init logger.
@@ -90,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: CategoryView(),
+        child: GoalView(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tiny_goals_big_improvements/domain/category.dart';
-import 'package:tiny_goals_big_improvements/representation/views/category/update_dialog/category_update_dialog.dart';
+import 'package:tiny_goals_big_improvements/representation/views/category/update/category_update_dialog.dart';
 import 'package:tiny_goals_big_improvements/service/category_service.dart';
 
 /// The category controller.

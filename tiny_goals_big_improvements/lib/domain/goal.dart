@@ -17,13 +17,15 @@ class Goal {
 
   late Category category;
 
-  Goal(
-      {required this.activity,
-      this.description,
-      required this.amount,
-      required this.repeatCount,
-      required this.repeatType,
-      required this.category});
+  Goal({
+    this.id,
+    required this.activity,
+    this.description,
+    required this.amount,
+    required this.repeatCount,
+    required this.repeatType,
+    required this.category,
+  });
 
   Goal.fromMap(final Map<String, dynamic> map) {
     fromMap(map);
@@ -34,25 +36,21 @@ class Goal {
         'activity': activity,
         'description': description,
         'amount': amount,
-        'repeatCount': repeatCount,
-        'repeatType': repeatType,
+        'repeat_count': repeatCount,
+        'repeat_type': repeatType,
         'category': category,
       };
 
   void fromMap(final Map<String, dynamic> map) {
     _log.fine('Parses $map to Goal.');
 
-    assert(map.containsKey('id'),
-        'Failed parsing map to domain model "Goal": The inputted map doesn\'t contain the field "id"');
     assert(map.containsKey('activity'),
         'Failed parsing map to domain model "Goal": The inputted map doesn\'t contain the field "activity"');
-    assert(map.containsKey('description'),
-        'Failed parsing map to domain model "Goal": The inputted map doesn\'t contain the field "description"');
     assert(map.containsKey('amount'),
         'Failed parsing map to domain model "Goal": The inputted map doesn\'t contain the field "amount"');
-    assert(map.containsKey('repeatCount'),
+    assert(map.containsKey('repeat_count'),
         'Failed parsing map to domain model "Goal": The inputted map doesn\'t contain the field "repeatCount"');
-    assert(map.containsKey('repeatType'),
+    assert(map.containsKey('repeat_type'),
         'Failed parsing map to domain model "Goal": The inputted map doesn\'t contain the field "repeatType"');
     assert(map.containsKey('category'),
         'Failed parsing map to domain model "Goal": The inputted map doesn\'t contain the field "category"');
@@ -61,8 +59,8 @@ class Goal {
     activity = map['activity'];
     description = map['description'];
     amount = map['amount'];
-    repeatCount = map['repeatCount'];
-    repeatType = map['repeatType'];
+    repeatCount = map['repeat_count'];
+    repeatType = map['repeat_type'];
     category = map['category'];
   }
 

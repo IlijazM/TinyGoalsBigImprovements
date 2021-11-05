@@ -20,11 +20,12 @@ class Category {
   /// The name of the icon of the category.
   late String icon;
 
-  Category(
-      {required this.name,
-      this.description,
-      required this.color,
-      required this.icon});
+  Category({
+    required this.name,
+    this.description,
+    required this.color,
+    required this.icon,
+  });
 
   Category.fromMap(final Map<String, dynamic> map) {
     fromMap(map);

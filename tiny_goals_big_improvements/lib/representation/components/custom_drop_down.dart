@@ -6,7 +6,6 @@ class CustomDropDown extends DropdownButton {
     required onChanged,
     String? value,
   }) : super(
-          isExpanded: true,
           value: value,
           onChanged: onChanged,
           items: items,
