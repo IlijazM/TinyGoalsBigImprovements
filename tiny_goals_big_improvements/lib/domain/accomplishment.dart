@@ -19,42 +19,13 @@ class Accomplishment {
     required this.goal,
   });
 
-  Accomplishment.fromMap(final Map<String, dynamic> map) {
-    fromMap(map);
-  }
-
-  Map<String, dynamic> toMap() => {
-        'id': id,
-        'date': date,
-        'amount': amount,
-        'goal': goal,
-      };
-
-  void fromMap(final Map<String, dynamic> map) {
-    _log.fine('Parses $map to Accomplishment.');
-
-    assert(map.containsKey('id'),
-        'Failed parsing map to domain model "Accomplishment": The inputted map doesn\'t contain the field "id"');
-    assert(map.containsKey('date'),
-        'Failed parsing map to domain model "Accomplishment": The inputted map doesn\'t contain the field "date"');
-    assert(map.containsKey('amount'),
-        'Failed parsing map to domain model "Accomplishment": The inputted map doesn\'t contain the field "amount"');
-    assert(map.containsKey('goal'),
-        'Failed parsing map to domain model "Accomplishment": The inputted map doesn\'t contain the field "goal"');
-
-    id = map['id'];
-    date = map['date'];
-    amount = map['amount'];
-    goal = map['goal'];
-  }
-
   @override
   String toString() {
     return 'Goal{' +
-        '"id": ${id.toString()}' +
-        '"date": ${date.toString()}' +
-        '"amount": ${amount.toString()}' +
-        '"goal": ${goal.toString()}' +
+        '"id": ${id.toString()}, ' +
+        '"date": ${date.toString()}, ' +
+        '"amount": ${amount.toString()}, ' +
+        '"goal": ${goal.toString()}, ' +
         '}';
   }
 }

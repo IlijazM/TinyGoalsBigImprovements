@@ -6,30 +6,21 @@ import 'package:tiny_goals_big_improvements/representation/views/goal/update/goa
 import 'package:tiny_goals_big_improvements/service/goal_service.dart';
 
 class GoalController {
-  List<Category>? categories;
-  Category? selectedCategory;
   List<Goal>? goals;
+  final Category selectedCategory;
 
   final GoalService _goalService;
 
   /// The list of all subscribers.
-  final List<Function> _categoriesSubscribers = [];
   final List<Function> _goalsSubscribers = [];
 
-  GoalController() : _goalService = GoalService();
-
-  queryAllCategories() async {
-    categories = null;
-    categories = await _goalService.getAllCategories();
-    _notifyCategoriesSubscribers();
-  }
+  GoalController({required this.selectedCategory})
+      : _goalService = GoalService();
 
   query() async {
-    if (selectedCategory != null) {
-      goals = null;
-      goals = await _goalService.getAllGoalsByCategory(selectedCategory!);
-      _notifyGoalsSubscribers();
-    }
+    goals = null;
+    goals = await _goalService.getAllGoalsByCategory(selectedCategory);
+    _notifyGoalsSubscribers();
   }
 
   save(final Goal goal) {
@@ -92,12 +83,6 @@ class GoalController {
       },
     );
   }
-
-  subscribeToCategories(Function callback) =>
-      _categoriesSubscribers.add(callback);
-
-  _notifyCategoriesSubscribers() =>
-      _categoriesSubscribers.forEach((element) => element());
 
   subscribeToGoals(Function callback) => _goalsSubscribers.add(callback);
 

@@ -8,27 +8,13 @@ class GoalService {
   static final _log = Logger('GoalService');
 
   final GoalRepository _goalRepository;
-  final CategoryRepository _categoryRepository;
 
-  GoalService()
-      : _goalRepository = GoalRepository(),
-        _categoryRepository = CategoryRepository();
+  GoalService() : _goalRepository = GoalRepository();
 
   void createNewGoal(Goal goal) {
     _log.info("Request to create or update a Goal.");
 
     _goalRepository.save(goal);
-  }
-
-  Future<List<Category>> getAllCategories() async {
-    _log.info("Request all Categories.");
-
-    List<Category> result = await _categoryRepository.findAll();
-
-    _log.info(
-        "Successfully got all Categories. Got ${result.length} in total.");
-
-    return result;
   }
 
   Future<List<Goal>> getAllGoalsByCategory(Category category) async {

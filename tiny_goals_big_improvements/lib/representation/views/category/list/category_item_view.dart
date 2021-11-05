@@ -4,27 +4,32 @@ import 'package:tiny_goals_big_improvements/domain/category.dart';
 
 class CategoryItemView extends StatelessWidget {
   final Category category;
+  final Function selectCallback;
   final Function editCallback;
   final Function deleteCallback;
 
   CategoryItemView({
     Key? key,
     required this.category,
+    required this.selectCallback,
     required this.editCallback,
     required this.deleteCallback,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Card(
-        child: Container(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              _buildIcon(),
-              _buildText(),
-              const Spacer(),
-              ..._buildActionButtons(),
-            ],
+  Widget build(BuildContext context) => GestureDetector(
+        onTap: () => selectCallback(),
+        child: Card(
+          child: Container(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                _buildIcon(),
+                _buildText(),
+                const Spacer(),
+                ..._buildActionButtons(),
+              ],
+            ),
           ),
         ),
       );

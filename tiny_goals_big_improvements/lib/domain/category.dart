@@ -21,6 +21,7 @@ class Category {
   late String icon;
 
   Category({
+    this.id,
     required this.name,
     this.description,
     required this.color,

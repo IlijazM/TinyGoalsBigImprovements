@@ -59,6 +59,9 @@ class _CategoryViewState extends State<CategoryView> {
       children: widget.categoryController.categories!
           .map((category) => CategoryItemView(
                 category: category,
+                selectCallback: () {
+                  widget.categoryController.requestSelect(context, category);
+                },
                 editCallback: () {
                   widget.categoryController.requestEdit(context, category);
                 },

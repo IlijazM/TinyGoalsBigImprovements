@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tiny_goals_big_improvements/domain/category.dart';
 import 'package:tiny_goals_big_improvements/representation/views/category/update/category_update_dialog.dart';
+import 'package:tiny_goals_big_improvements/representation/views/goal/list/goal_view.dart';
 import 'package:tiny_goals_big_improvements/service/category_service.dart';
 
 /// The category controller.
@@ -38,6 +39,16 @@ class CategoryController {
 
     // Reload
     query();
+  }
+
+  requestSelect(BuildContext context, Category category) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GoalView(selectedCategory: category),
+        fullscreenDialog: true,
+      ),
+    );
   }
 
   /// Request editing a category. If the category is null that means that they will create a new

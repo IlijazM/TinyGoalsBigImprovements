@@ -40,11 +40,11 @@ void _initDb() {
     `name` TEXT NOT NULL,
     `description` TEXT,
     `color` INTEGER NOT NULL,
-    `icon` VARCHAR(255) NOT NULL,
+    `icon` VARCHAR(255) NOT NULL
   );
   ''';
   _log.finest('executing:\n' + sql);
-  _databaseSingleton?.execute(sql);
+  _databaseSingleton!.execute(sql);
 
   sql = '''
   CREATE TABLE IF NOT EXISTS `goals` (
@@ -58,5 +58,5 @@ void _initDb() {
   );
   ''';
   _log.finest('executing:\n' + sql);
-  _databaseSingleton?.execute(sql);
+  _databaseSingleton!.execute(sql);
 }

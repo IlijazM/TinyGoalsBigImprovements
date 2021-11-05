@@ -24,7 +24,7 @@ class GoalUpdateDialog extends StatefulWidget {
 
   @override
   _GoalUpdateDialogState createState() =>
-      _GoalUpdateDialogState(goal, goalController.selectedCategory!);
+      _GoalUpdateDialogState(goal, goalController.selectedCategory);
 }
 
 class _GoalUpdateDialogState extends State<GoalUpdateDialog> {

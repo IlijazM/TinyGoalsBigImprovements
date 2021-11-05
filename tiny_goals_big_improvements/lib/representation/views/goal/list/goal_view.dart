@@ -7,8 +7,10 @@ import 'package:tiny_goals_big_improvements/representation/views/goal/list/goal_
 class GoalView extends StatefulWidget {
   final GoalController goalController;
 
-  GoalView({Key? key})
-      : goalController = GoalController(),
+  final Category selectedCategory;
+
+  GoalView({Key? key, required this.selectedCategory})
+      : goalController = GoalController(selectedCategory: selectedCategory),
         super(key: key);
 
   @override
@@ -19,76 +21,35 @@ class _GoalViewState extends State<GoalView> {
   @override
   void initState() {
     super.initState();
-    widget.goalController.subscribeToCategories(() => setState(() {}));
     widget.goalController.subscribeToGoals(() => setState(() {}));
-    widget.goalController.queryAllCategories();
+    widget.goalController.query();
   }
 
   @override
-  Widget build(BuildContext context) {
-    Widget child;
-
-    if (widget.goalController.selectedCategory == null) {
-      if (widget.goalController.categories == null) {
-        child = const CircularProgressIndicator();
-      } else {
-        child = _buildCategoryChooser();
-      }
-    } else {
-      child = _buildGoalList(context);
-    }
-
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      child: child,
-    );
-  }
-
-  Widget _buildCategoryChooser() => Column(
-        children: [
-          const Text(
-            // TODO: translate
-            'Chose a category',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Wrap(
-            spacing: 10.0,
-            runSpacing: 10.0,
-            children: widget.goalController.categories!
-                .map((e) => _buildCategoryButton(e))
-                .toList(),
-          ),
-        ],
-      );
-
-  Widget _buildCategoryButton(Category category) => ElevatedButton(
-        onPressed: () => _selectCategory(category),
-        child: Container(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Icon(
-                IconData(
-                  int.parse(category.icon),
-                  fontFamily: 'MaterialIcons',
-                ),
-              ),
-              Text(category.name),
-            ],
-          ),
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          title: Text(widget.selectedCategory.name),
+          backgroundColor: Color(widget.selectedCategory.color),
+          foregroundColor:
+              Color(widget.selectedCategory.color).computeLuminance() > 0.5
+                  ? Colors.white
+                  : Colors.black,
         ),
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Color(category.color)),
+        body: Center(
+          // Center is a layout widget. It takes a single child and positions it
+          // in the middle of the parent.
+          // child: GoalView(),
+          child: Container(
+            padding: const EdgeInsets.all(16.0),
+            child: _buildGoalList(context),
+          ),
         ),
       );
 
   Widget _buildGoalList(BuildContext context) => Column(
         children: [
-          ElevatedButton(
-            // TODO: translate
-            child: const Text('Select category'),
-            onPressed: _deselectCategory,
-          ),
           Row(
             children: [
               const Text(
@@ -106,15 +67,6 @@ class _GoalViewState extends State<GoalView> {
           _buildListView(),
         ],
       );
-
-  _selectCategory(Category category) {
-    setState(() => widget.goalController.selectedCategory = category);
-    widget.goalController.query();
-  }
-
-  _deselectCategory() {
-    setState(() => widget.goalController.selectedCategory = null);
-  }
 
   Widget _buildListView() {
     if (widget.goalController.goals == null) {

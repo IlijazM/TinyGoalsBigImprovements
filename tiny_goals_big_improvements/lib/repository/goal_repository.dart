@@ -3,21 +3,24 @@ import 'package:sqflite/sqlite_api.dart';
 import 'package:tiny_goals_big_improvements/domain/category.dart';
 import 'package:tiny_goals_big_improvements/domain/goal.dart';
 import 'package:tiny_goals_big_improvements/domain/repeat_type.dart';
+import 'package:tiny_goals_big_improvements/repository/category_repository.dart';
 
 import 'database.dart';
 
 class GoalRepository {
   static final _log = Logger('GoalRepository');
 
+  CategoryRepository categoryRepository = CategoryRepository();
+
   void save(final Goal entity) async {
     Database database = await getDatabase();
 
     if (entity.id == null) {
-      _log.fine('Inserting Goal: ${entity.toMap()}.');
+      _log.fine('Inserting Goal: ${toMap(entity)}.');
 
       DateTime dateTimeBefore = DateTime.now();
 
-      int id = await database.insert(Goal.tableName, entity.toMap());
+      int id = await database.insert(Goal.tableName, toMap(entity));
       entity.id = id;
 
       DateTime dateTimeAfter = DateTime.now();
@@ -25,11 +28,11 @@ class GoalRepository {
           'Inserted Goal successfully. It took ${dateTimeAfter.difference(dateTimeBefore).inMicroseconds}µs');
       _log.finer('Inserted Goal successfully. Got id $id.');
     } else {
-      _log.fine('Updating Goal: ${entity.toMap()}.');
+      _log.fine('Updating Goal: ${toMap(entity)}.');
 
       DateTime dateTimeBefore = DateTime.now();
 
-      int id = await database.update(Goal.tableName, entity.toMap(),
+      int id = await database.update(Goal.tableName, toMap(entity),
           where: 'id = ?', whereArgs: [entity.id]);
 
       DateTime dateTimeAfter = DateTime.now();
@@ -56,7 +59,9 @@ class GoalRepository {
     _log.fine(
         'Successfully queried all Goal. It took ${dateTimeAfter.difference(dateTimeBefore).inMicroseconds}µs');
 
-    result = queryResult.map((e) => Goal.fromMap(e)).toList();
+    for (Map<String, Object?> e in queryResult) {
+      result.add(await fromMap(e));
+    }
 
     return result;
   }
@@ -81,7 +86,9 @@ class GoalRepository {
     _log.fine(
         'Successfully queried all Goal. It took ${dateTimeAfter.difference(dateTimeBefore).inMicroseconds}µs');
 
-    result = queryResult.map((e) => Goal.fromMap(e)).toList();
+    for (Map<String, Object?> e in queryResult) {
+      result.add(await fromMap(e));
+    }
 
     return result;
   }
@@ -112,7 +119,9 @@ class GoalRepository {
         'category_id': goal.category.id,
       };
 
-  Goal fromMap(Map<String, dynamic> map) {
+  Future<Goal> fromMap(Map<String, dynamic> map) async {
+    Database database = await getDatabase();
+
     _log.fine('Parses $map to Goal.');
 
     assert(map.containsKey('activity'),
@@ -120,11 +129,13 @@ class GoalRepository {
     assert(map.containsKey('amount'),
         'Failed parsing map to domain model "Goal": The inputted map doesn\'t contain the field "amount"');
     assert(map.containsKey('repeat_count'),
-        'Failed parsing map to domain model "Goal": The inputted map doesn\'t contain the field "repeatCount"');
+        'Failed parsing map to domain model "Goal": The inputted map doesn\'t contain the field "repeat_count"');
     assert(map.containsKey('repeat_type'),
-        'Failed parsing map to domain model "Goal": The inputted map doesn\'t contain the field "repeatType"');
+        'Failed parsing map to domain model "Goal": The inputted map doesn\'t contain the field "repeat_type"');
     assert(map.containsKey('category_id'),
         'Failed parsing map to domain model "Goal": The inputted map doesn\'t contain the field "category"');
+
+    Category category = await categoryRepository.findById(map['category_id']);
 
     return Goal(
       id: map['id'],
@@ -134,7 +145,7 @@ class GoalRepository {
       repeatCount: map['repeat_count'],
       repeatType: RepeatType.values
           .firstWhere((element) => element.toString() == map['repeat_type']),
-      category: map['category_id'],
+      category: category,
     );
   }
 }

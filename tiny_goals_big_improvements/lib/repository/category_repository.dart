@@ -37,7 +37,10 @@ class CategoryRepository {
     }
   }
 
-  Future<List<Category>> findAll() async {
+  Future<List<Category>> findWhere({
+    String? where,
+    List<Object>? whereArgs,
+  }) async {
     List<Category> result = [];
 
     Database database = await getDatabase();
@@ -46,8 +49,8 @@ class CategoryRepository {
 
     DateTime dateTimeBefore = DateTime.now();
 
-    List<Map<String, Object?>> queryResult =
-        await database.query(Category.tableName);
+    List<Map<String, Object?>> queryResult = await database
+        .query(Category.tableName, where: where, whereArgs: whereArgs);
 
     DateTime dateTimeAfter = DateTime.now();
 
@@ -58,6 +61,10 @@ class CategoryRepository {
 
     return result;
   }
+
+  Future<List<Category>> findAll() async => await findWhere();
+  Future<Category> findById(int id) async =>
+      (await findWhere(where: 'id = ?', whereArgs: [id])).first;
 
   void delete(int id) async {
     Database database = await getDatabase();
@@ -73,5 +80,36 @@ class CategoryRepository {
 
     _log.fine(
         'Successfully deleted the Category with the id $id. It took ${dateTimeAfter.difference(dateTimeBefore).inMicroseconds}µs');
+  }
+
+  Map<String, dynamic> toMap(Category category) => {
+        'id': category.id,
+        'name': category.name,
+        'description': category.description,
+        'color': category.color,
+        'icon': category.icon,
+      };
+
+  Future<Category> fromMap(Map<String, dynamic> map) async {
+    _log.fine('Parses $map to Category.');
+
+    assert(map.containsKey('id'),
+        'Failed parsing map to domain model "Category": The inputted map doesn\'t contain the field "id"');
+    assert(map.containsKey('name'),
+        'Failed parsing map to domain model "Category": The inputted map doesn\'t contain the field "name"');
+    assert(map.containsKey('description'),
+        'Failed parsing map to domain model "Category": The inputted map doesn\'t contain the field "description"');
+    assert(map.containsKey('color'),
+        'Failed parsing map to domain model "Category": The inputted map doesn\'t contain the field "color"');
+    assert(map.containsKey('icon'),
+        'Failed parsing map to domain model "Category": The inputted map doesn\'t contain the field "icon"');
+
+    return Category(
+      id: map['id'],
+      name: map['name'],
+      description: map['description'],
+      color: map['color'],
+      icon: map['icon'],
+    );
   }
 }
