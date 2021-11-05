@@ -77,6 +77,7 @@ class _GoalViewState extends State<GoalView> {
       children: widget.goalController.goals!
           .map((goal) => GoalItemView(
                 goal: goal,
+                selectCallback: () {},
                 editCallback: () {
                   widget.goalController.requestEdit(context, goal);
                 },

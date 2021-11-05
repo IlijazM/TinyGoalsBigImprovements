@@ -28,10 +28,10 @@ Future<void> _lazyInitDatabase() async {
   _databaseSingleton = await databaseFactory.openDatabase('/tmp/database.db');
   _log.info('Database was loaded successfully.');
 
-  _initDb();
+  await _initDb();
 }
 
-void _initDb() {
+_initDb() async {
   String sql;
 
   sql = '''

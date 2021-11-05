@@ -37,7 +37,7 @@ class _CategoryUpdateDialogState extends State<CategoryUpdateDialog> {
             Category(
               name: 'New Category',
               color: Colors.blue.value,
-              icon: '',
+              icon: '0xe163',
             );
 
   @override
@@ -96,7 +96,7 @@ class _CategoryUpdateDialogState extends State<CategoryUpdateDialog> {
         onChanged: (value) => setState(() => category.icon = value),
         items: [
           DropdownMenuItem(
-            value: '',
+            value: '0xe163',
             child: Row(
               children: const [Icon(Icons.circle), Text('   Default')],
             ),

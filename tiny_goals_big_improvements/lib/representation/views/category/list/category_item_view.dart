@@ -17,9 +17,9 @@ class CategoryItemView extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        onTap: () => selectCallback(),
-        child: Card(
+  Widget build(BuildContext context) => Card(
+        child: InkWell(
+          onTap: () => selectCallback(),
           child: Container(
             padding: const EdgeInsets.all(8.0),
             child: Row(
