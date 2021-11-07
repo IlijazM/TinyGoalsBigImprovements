@@ -25,7 +25,7 @@ Future<void> _lazyInitDatabase() async {
     databaseFactory = databaseFactoryFfi;
   }
   // Open the database and store the reference.
-  _databaseSingleton = await databaseFactory.openDatabase('/tmp/database.db');
+  _databaseSingleton = await databaseFactory.openDatabase('D:/database.db');
   _log.info('Database was loaded successfully.');
 
   await _initDb();
@@ -63,7 +63,7 @@ _initDb() async {
   sql = '''
   CREATE TABLE IF NOT EXISTS `accomplishments` (
     `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-    `date` TEXT NOT NULL,
+    `date` INTEGER NOT NULL,
     `amount` INTEGER NOT NULL,
     `goal_id` INTEGER NOT NULL
   );

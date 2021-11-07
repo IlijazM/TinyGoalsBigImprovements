@@ -1,5 +1,6 @@
 import 'package:logging/logging.dart';
 import 'package:sqflite/sqlite_api.dart';
+import 'package:tiny_goals_big_improvements/core/date_util.dart';
 import 'package:tiny_goals_big_improvements/domain/accomplishment.dart';
 import 'package:tiny_goals_big_improvements/domain/goal.dart';
 import 'package:tiny_goals_big_improvements/repository/goal_repository.dart';
@@ -73,9 +74,14 @@ class AccomplishmentRepository {
 
   Future<List<Accomplishment>> findAll() async => await findWhere();
   Future<Accomplishment> findById(int id) async =>
-      (await findWhere(where: "id = ?", whereArgs: [id])).first;
+      (await findWhere(where: 'id = ?', whereArgs: [id])).first;
   Future<List<Accomplishment>> findAllByGoal(Goal goal) async =>
-      await findWhere(where: "goal_id = ?", whereArgs: [goal.id]);
+      await findWhere(where: 'goal_id = ?', whereArgs: [goal.id]);
+
+  Future<List<Accomplishment>> findAllThisDay() async => await findWhere(
+        where: 'date >= ?',
+        whereArgs: ['${getStartOfDay().millisecondsSinceEpoch}'],
+      );
 
   void delete(int id) async {
     Database database = await getDatabase();
@@ -95,7 +101,7 @@ class AccomplishmentRepository {
 
   Map<String, dynamic> toMap(Accomplishment accomplishment) => {
         'id': accomplishment.id,
-        'date': accomplishment.date.toString(),
+        'date': accomplishment.date.millisecondsSinceEpoch,
         'amount': accomplishment.amount,
         'goal_id': accomplishment.goal.id,
       };
@@ -107,10 +113,10 @@ class AccomplishmentRepository {
 
     assert(map.containsKey('date'),
         'Failed parsing map to domain model "Accomplishment": The inputted map doesn\'t contain the field "date"');
+    assert(map.containsKey('date'),
+        'Failed parsing map to domain model "Accomplishment": The inputted map doesn\'t contain the field "date"');
     assert(map.containsKey('amount'),
         'Failed parsing map to domain model "Accomplishment": The inputted map doesn\'t contain the field "amount"');
-    assert(map.containsKey('repeat_count'),
-        'Failed parsing map to domain model "Accomplishment": The inputted map doesn\'t contain the field "repeat_count"');
     assert(map.containsKey('goal_id'),
         'Failed parsing map to domain model "Accomplishment": The inputted map doesn\'t contain the field "goal"');
 
@@ -118,7 +124,7 @@ class AccomplishmentRepository {
 
     return Accomplishment(
       id: map['id'],
-      date: DateTime.parse(map['date']),
+      date: DateTime.fromMillisecondsSinceEpoch(map['date']),
       amount: map['amount'],
       goal: goal,
     );

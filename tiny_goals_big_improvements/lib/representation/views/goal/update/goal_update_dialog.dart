@@ -40,7 +40,7 @@ class _GoalUpdateDialogState extends State<GoalUpdateDialog> {
               activity: 'New Goal',
               amount: 1,
               repeatCount: 1,
-              repeatType: RepeatType.week,
+              repeatType: RepeatType.day,
               category: selectedCategory,
             );
 
@@ -66,7 +66,7 @@ class _GoalUpdateDialogState extends State<GoalUpdateDialog> {
               _buildActivityTextField(),
               _buildDescriptionTextField(),
               _buildRepeatOption(),
-              _buildAmountOption(),
+              // _buildAmountOption(),
               _buildFormControllButtons(),
             ],
           ),
@@ -105,15 +105,21 @@ class _GoalUpdateDialogState extends State<GoalUpdateDialog> {
               height: 61,
               child: CustomDropDown(
                 value: goal.repeatType.toString(),
-                items: RepeatType.values
-                    .map(
-                      (e) => DropdownMenuItem(
-                        value: e.toString(),
-                        child:
-                            Text('time(s) a ' + e.toString().split('.').last),
-                      ),
-                    )
-                    .toList(),
+                items: // RepeatType.values
+                    // .map(
+                    //   (e) => DropdownMenuItem(
+                    //     value: e.toString(),
+                    //     child:
+                    //         Text('time(s) a ' + e.toString().split('.').last),
+                    //   ),
+                    // )
+                    // .toList(),
+                    [
+                  DropdownMenuItem(
+                    value: RepeatType.day.toString(),
+                    child: const Text('time(s) a day'),
+                  ),
+                ],
                 onChanged: (value) => goal.repeatType = RepeatType.values
                     .firstWhere((element) => element.toString() == value),
               ),

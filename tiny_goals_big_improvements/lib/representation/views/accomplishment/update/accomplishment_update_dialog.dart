@@ -7,9 +7,13 @@ import 'package:tiny_goals_big_improvements/representation/views/accomplishment/
 class AccomplishmentUpdateDialog extends StatefulWidget {
   final Goal goal;
   final AccomplishmentController accomplishmentController;
+  final Function onSave;
 
-  AccomplishmentUpdateDialog({Key? key, required this.goal})
-      : accomplishmentController = AccomplishmentController(goal),
+  AccomplishmentUpdateDialog({
+    Key? key,
+    required this.goal,
+    required this.onSave,
+  })  : accomplishmentController = AccomplishmentController(goal),
         super(key: key);
 
   @override
@@ -40,6 +44,7 @@ class _AccomplishmentUpdateDialogState
           child: const Text('Yes'),
           onPressed: () {
             widget.accomplishmentController.create(accomplishment);
+            widget.onSave();
             Navigator.of(context).pop();
           },
         ),

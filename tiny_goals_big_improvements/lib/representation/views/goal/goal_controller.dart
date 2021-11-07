@@ -94,6 +94,7 @@ class GoalController {
         context: context,
         builder: (context) => AccomplishmentUpdateDialog(
           goal: goal,
+          onSave: () => query(),
         ),
       );
 }

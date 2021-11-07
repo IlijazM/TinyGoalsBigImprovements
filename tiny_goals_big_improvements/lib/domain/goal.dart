@@ -17,6 +17,10 @@ class Goal {
 
   late Category category;
 
+  // DTO fields.
+  int? accomplishments;
+  String? status;
+
   Goal({
     this.id,
     required this.activity,
