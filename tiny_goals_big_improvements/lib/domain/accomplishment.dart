@@ -14,6 +14,7 @@ class Accomplishment {
   late Goal goal;
 
   Accomplishment({
+    this.id,
     required this.date,
     required this.amount,
     required this.goal,

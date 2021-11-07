@@ -42,31 +42,10 @@ class GoalRepository {
     }
   }
 
-  Future<List<Goal>> findAll() async {
-    List<Goal> result = [];
-
-    Database database = await getDatabase();
-
-    _log.fine('Querying all Goals.');
-
-    DateTime dateTimeBefore = DateTime.now();
-
-    List<Map<String, Object?>> queryResult =
-        await database.query(Goal.tableName);
-
-    DateTime dateTimeAfter = DateTime.now();
-
-    _log.fine(
-        'Successfully queried all Goal. It took ${dateTimeAfter.difference(dateTimeBefore).inMicroseconds}µs');
-
-    for (Map<String, Object?> e in queryResult) {
-      result.add(await fromMap(e));
-    }
-
-    return result;
-  }
-
-  Future<List<Goal>> findAllByCategory(Category category) async {
+  Future<List<Goal>> findWhere({
+    String? where,
+    List<Object?>? whereArgs,
+  }) async {
     List<Goal> result = [];
 
     Database database = await getDatabase();
@@ -77,8 +56,8 @@ class GoalRepository {
 
     List<Map<String, Object?>> queryResult = await database.query(
       Goal.tableName,
-      where: 'category_id = ?',
-      whereArgs: [category.id],
+      where: where,
+      whereArgs: whereArgs,
     );
 
     DateTime dateTimeAfter = DateTime.now();
@@ -92,6 +71,13 @@ class GoalRepository {
 
     return result;
   }
+
+  Future<List<Goal>> findAll() async => await findWhere();
+  Future<Goal> findById(int id) async =>
+      (await findWhere(where: "id = ?", whereArgs: [id])).first;
+
+  Future<List<Goal>> findAllByCategory(Category category) async =>
+      await findWhere(where: "category_id = ?", whereArgs: [category.id]);
 
   void delete(int id) async {
     Database database = await getDatabase();
