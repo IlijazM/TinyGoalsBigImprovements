@@ -34,8 +34,8 @@ class _GoalViewState extends State<GoalView> {
           backgroundColor: Color(widget.selectedCategory.color),
           foregroundColor:
               Color(widget.selectedCategory.color).computeLuminance() > 0.5
-                  ? Colors.white
-                  : Colors.black,
+                  ? Colors.black
+                  : Colors.white,
         ),
         body: Center(
           // Center is a layout widget. It takes a single child and positions it
@@ -77,7 +77,9 @@ class _GoalViewState extends State<GoalView> {
       children: widget.goalController.goals!
           .map((goal) => GoalItemView(
                 goal: goal,
-                selectCallback: () {},
+                selectCallback: () {
+                  widget.goalController.requestSelect(context, goal);
+                },
                 editCallback: () {
                   widget.goalController.requestEdit(context, goal);
                 },

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tiny_goals_big_improvements/domain/category.dart';
 import 'package:tiny_goals_big_improvements/domain/goal.dart';
+import 'package:tiny_goals_big_improvements/representation/views/accomplishment/update/accomplishment_update_dialog.dart';
 import 'package:tiny_goals_big_improvements/representation/views/goal/update/goal_update_dialog.dart';
 import 'package:tiny_goals_big_improvements/service/goal_service.dart';
 
@@ -88,4 +89,11 @@ class GoalController {
 
   _notifyGoalsSubscribers() =>
       _goalsSubscribers.forEach((element) => element());
+
+  requestSelect(BuildContext context, Goal goal) => showDialog(
+        context: context,
+        builder: (context) => AccomplishmentUpdateDialog(
+          goal: goal,
+        ),
+      );
 }

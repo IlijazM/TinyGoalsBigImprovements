@@ -21,7 +21,7 @@ class GoalItemView extends StatelessWidget {
         child: InkWell(
           onTap: () => selectCallback(),
           child: Container(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 8.0),
             child: Row(
               children: [
                 _buildText(),

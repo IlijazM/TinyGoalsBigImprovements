@@ -95,9 +95,9 @@ class AccomplishmentRepository {
 
   Map<String, dynamic> toMap(Accomplishment accomplishment) => {
         'id': accomplishment.id,
-        'date': accomplishment.date,
+        'date': accomplishment.date.toString(),
         'amount': accomplishment.amount,
-        'goal': accomplishment.goal.id,
+        'goal_id': accomplishment.goal.id,
       };
 
   Future<Accomplishment> fromMap(Map<String, dynamic> map) async {
@@ -118,7 +118,7 @@ class AccomplishmentRepository {
 
     return Accomplishment(
       id: map['id'],
-      date: map['date'],
+      date: DateTime.parse(map['date']),
       amount: map['amount'],
       goal: goal,
     );

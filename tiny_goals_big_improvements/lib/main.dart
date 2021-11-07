@@ -8,7 +8,7 @@ void main() {
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) {
     print(
-        '[${record.loggerName}] {record.level.name}: ${record.time}: ${record.message}');
+        '${record.time}: [${record.loggerName}] ${record.level.name}: ${record.message}');
   });
 
   // Need this because of touch issues. See: https://github.com/flutter/flutter/issues/76325

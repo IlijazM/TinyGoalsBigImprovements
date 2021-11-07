@@ -59,4 +59,15 @@ _initDb() async {
   ''';
   _log.finest('executing:\n' + sql);
   _databaseSingleton!.execute(sql);
+
+  sql = '''
+  CREATE TABLE IF NOT EXISTS `accomplishments` (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+    `date` TEXT NOT NULL,
+    `amount` INTEGER NOT NULL,
+    `goal_id` INTEGER NOT NULL
+  );
+  ''';
+  _log.finest('executing:\n' + sql);
+  _databaseSingleton!.execute(sql);
 }

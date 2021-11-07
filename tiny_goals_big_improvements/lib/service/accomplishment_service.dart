@@ -17,6 +17,13 @@ class AccomplishmentService {
     _accomplishmentRepository.save(accomplishment);
   }
 
+  /// Will create an accomplishment that got created just now.
+  void createAccomplishmentNow(Accomplishment accomplishment) {
+    accomplishment.date = DateTime.now();
+
+    createNewAccomplishment(accomplishment);
+  }
+
   Future<List<Accomplishment>> getAllAccomplishmentsByGoal(Goal goal) async {
     _log.info("Request all Accomplishments by goal $goal.");
 
