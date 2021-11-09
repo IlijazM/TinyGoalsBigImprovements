@@ -7,7 +7,7 @@ import 'database.dart';
 class CategoryRepository {
   static final _log = Logger('CategoryRepository');
 
-  void save(final Category entity) async {
+  Future<void> save(final Category entity) async {
     Database database = await getDatabase();
 
     if (entity.id == null) {
@@ -66,7 +66,7 @@ class CategoryRepository {
   Future<Category> findById(int id) async =>
       (await findWhere(where: 'id = ?', whereArgs: [id])).first;
 
-  void delete(int id) async {
+  Future<void> delete(int id) async {
     Database database = await getDatabase();
 
     _log.fine('Deleting the Category with the id $id.');

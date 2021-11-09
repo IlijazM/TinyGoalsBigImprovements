@@ -105,21 +105,15 @@ class _GoalUpdateDialogState extends State<GoalUpdateDialog> {
               height: 61,
               child: CustomDropDown(
                 value: goal.repeatType.toString(),
-                items: // RepeatType.values
-                    // .map(
-                    //   (e) => DropdownMenuItem(
-                    //     value: e.toString(),
-                    //     child:
-                    //         Text('time(s) a ' + e.toString().split('.').last),
-                    //   ),
-                    // )
-                    // .toList(),
-                    [
-                  DropdownMenuItem(
-                    value: RepeatType.day.toString(),
-                    child: const Text('time(s) a day'),
-                  ),
-                ],
+                items: RepeatType.values
+                    .map(
+                      (e) => DropdownMenuItem(
+                        value: e.toString(),
+                        child:
+                            Text('time(s) a ' + e.toString().split('.').last),
+                      ),
+                    )
+                    .toList(),
                 onChanged: (value) => goal.repeatType = RepeatType.values
                     .firstWhere((element) => element.toString() == value),
               ),

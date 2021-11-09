@@ -12,7 +12,7 @@ class GoalRepository {
 
   CategoryRepository categoryRepository = CategoryRepository();
 
-  void save(final Goal entity) async {
+  Future<void> save(final Goal entity) async {
     Database database = await getDatabase();
 
     if (entity.id == null) {
@@ -63,7 +63,7 @@ class GoalRepository {
     DateTime dateTimeAfter = DateTime.now();
 
     _log.fine(
-        'Successfully queried all Goal. It took ${dateTimeAfter.difference(dateTimeBefore).inMicroseconds}µs');
+        'Successfully queried all Goals ${queryResult.length}. It took ${dateTimeAfter.difference(dateTimeBefore).inMicroseconds}µs');
 
     for (Map<String, Object?> e in queryResult) {
       result.add(await fromMap(e));
@@ -79,7 +79,7 @@ class GoalRepository {
   Future<List<Goal>> findAllByCategory(Category category) async =>
       await findWhere(where: "category_id = ?", whereArgs: [category.id]);
 
-  void delete(int id) async {
+  Future<void> delete(int id) async {
     Database database = await getDatabase();
 
     _log.fine('Deleting the Goal with the id $id.');

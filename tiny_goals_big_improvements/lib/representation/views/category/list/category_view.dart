@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tiny_goals_big_improvements/core/internationalization_util.dart';
 import 'package:tiny_goals_big_improvements/representation/views/category/category_controller.dart';
 import 'package:tiny_goals_big_improvements/representation/views/category/list/category_item_view.dart';
 
@@ -31,10 +32,9 @@ class _CategoryViewState extends State<CategoryView> {
           children: [
             Row(
               children: [
-                const Text(
-                  // TODO: translate
-                  'Categories',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                Text(
+                  l10n(context).entity_category,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const Spacer(),
                 IconButton(

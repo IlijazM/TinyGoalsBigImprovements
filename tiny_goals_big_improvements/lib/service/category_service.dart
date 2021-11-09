@@ -9,10 +9,10 @@ class CategoryService {
 
   CategoryService() : _categoryRepository = CategoryRepository();
 
-  void createNewCategory(Category category) {
+  Future<void> createNewCategory(Category category) async {
     _log.info("Request to create or update a Category.");
 
-    _categoryRepository.save(category);
+    await _categoryRepository.save(category);
   }
 
   Future<List<Category>> getAllCategories() async {
@@ -26,9 +26,9 @@ class CategoryService {
     return result;
   }
 
-  void deleteCategory(int id) {
+  Future<void> deleteCategory(int id) async {
     _log.info("Request to delete Goal with the id $id.");
 
-    _categoryRepository.delete(id);
+    await _categoryRepository.delete(id);
   }
 }

@@ -24,8 +24,18 @@ Future<void> _lazyInitDatabase() async {
     // Change the default factory
     databaseFactory = databaseFactoryFfi;
   }
+  String dbPath = 'database.db';
+  if (Platform.isWindows) {
+    dbPath = 'D:/database.db';
+  }
+  if (Platform.environment.containsKey('FLUTTER_TEST')) {
+    dbPath = '/tmp/database.db';
+    try {
+      File(dbPath).deleteSync();
+    } catch (_) {}
+  }
   // Open the database and store the reference.
-  _databaseSingleton = await databaseFactory.openDatabase('D:/database.db');
+  _databaseSingleton = await databaseFactory.openDatabase(dbPath);
   _log.info('Database was loaded successfully.');
 
   await _initDb();

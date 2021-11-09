@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
+import 'package:tiny_goals_big_improvements/core/internationalization_util.dart';
 import 'package:tiny_goals_big_improvements/domain/category.dart';
 import 'package:tiny_goals_big_improvements/representation/components/custom_button.dart';
 import 'package:tiny_goals_big_improvements/representation/components/custom_dialog.dart';
@@ -29,11 +30,13 @@ class CategoryUpdateDialog extends StatefulWidget {
 
 class _CategoryUpdateDialogState extends State<CategoryUpdateDialog> {
   Category category;
+  bool _update;
 
   final _formKey = GlobalKey<FormState>();
 
   _CategoryUpdateDialogState(Category? _category)
-      : category = _category ??
+      : _update = _category != null,
+        category = _category ??
             Category(
               name: 'New Category',
               color: Colors.blue.value,
@@ -43,7 +46,9 @@ class _CategoryUpdateDialogState extends State<CategoryUpdateDialog> {
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
-      title: 'Update Category',
+      title: _update
+          ? l10n(context).entity_category_update
+          : l10n(context).entity_category_create,
       children: [
         _buildForm(),
       ],

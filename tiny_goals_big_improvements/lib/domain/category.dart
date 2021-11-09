@@ -57,7 +57,7 @@ class Category {
     id = map['id'];
     name = map['name'];
     description = map['description'];
-    color = map['color'];
+    color = int.parse(map['color']);
     icon = map['icon'];
   }
 

@@ -1,4 +1,5 @@
 import 'package:logging/logging.dart';
+import 'package:tiny_goals_big_improvements/core/date_util.dart';
 import 'package:tiny_goals_big_improvements/domain/accomplishment.dart';
 import 'package:tiny_goals_big_improvements/domain/goal.dart';
 import 'package:tiny_goals_big_improvements/repository/accomplishment_repository.dart';
@@ -11,15 +12,15 @@ class AccomplishmentService {
   AccomplishmentService()
       : _accomplishmentRepository = AccomplishmentRepository();
 
-  void createNewAccomplishment(Accomplishment accomplishment) {
+  Future<void> createNewAccomplishment(Accomplishment accomplishment) async {
     _log.info("Request to create or update a Accomplishment.");
 
     _accomplishmentRepository.save(accomplishment);
   }
 
   /// Will create an accomplishment that got created just now.
-  void createAccomplishmentNow(Accomplishment accomplishment) {
-    accomplishment.date = DateTime.now();
+  Future<void> createAccomplishmentNow(Accomplishment accomplishment) async {
+    accomplishment.date = timeNow();
 
     createNewAccomplishment(accomplishment);
   }
@@ -36,7 +37,7 @@ class AccomplishmentService {
     return result;
   }
 
-  void deleteAccomplishment(int id) {
+  Future<void> deleteAccomplishment(int id) async {
     _log.info("Request to delete Accomplishment with the id $id.");
 
     _accomplishmentRepository.delete(id);

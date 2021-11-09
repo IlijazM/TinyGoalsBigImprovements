@@ -12,7 +12,7 @@ class AccomplishmentRepository {
 
   GoalRepository goalRepository = GoalRepository();
 
-  void save(final Accomplishment entity) async {
+  Future<void> save(final Accomplishment entity) async {
     Database database = await getDatabase();
 
     if (entity.id == null) {
@@ -78,12 +78,31 @@ class AccomplishmentRepository {
   Future<List<Accomplishment>> findAllByGoal(Goal goal) async =>
       await findWhere(where: 'goal_id = ?', whereArgs: [goal.id]);
 
-  Future<List<Accomplishment>> findAllThisDay() async => await findWhere(
-        where: 'date >= ?',
-        whereArgs: ['${getStartOfDay().millisecondsSinceEpoch}'],
+  Future<List<Accomplishment>> findAllThisDay(int goalId) async =>
+      await findWhere(
+        where: 'goal_id = ? AND date >= ?',
+        whereArgs: [goalId, '${getStartOfDay().millisecondsSinceEpoch}'],
       );
 
-  void delete(int id) async {
+  Future<List<Accomplishment>> findAllThisWeek(int goalId) async =>
+      await findWhere(
+        where: 'goal_id = ? AND date >= ?',
+        whereArgs: [goalId, '${getStartOfWeek().millisecondsSinceEpoch}'],
+      );
+
+  Future<List<Accomplishment>> findAllThisMonth(int goalId) async =>
+      await findWhere(
+        where: 'goal_id = ? AND date >= ?',
+        whereArgs: [goalId, '${getStartOfMonth().millisecondsSinceEpoch}'],
+      );
+
+  Future<List<Accomplishment>> findAllThisYear(int goalId) async =>
+      await findWhere(
+        where: 'goal_id = ? AND date >= ?',
+        whereArgs: [goalId, '${getStartOfYear().millisecondsSinceEpoch}'],
+      );
+
+  Future<void> delete(int id) async {
     Database database = await getDatabase();
 
     _log.fine('Deleting the Accomplishment with the id $id.');

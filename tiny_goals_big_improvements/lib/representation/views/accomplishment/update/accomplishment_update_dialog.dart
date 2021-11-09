@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tiny_goals_big_improvements/core/date_util.dart';
 import 'package:tiny_goals_big_improvements/domain/accomplishment.dart';
 import 'package:tiny_goals_big_improvements/domain/goal.dart';
 import 'package:tiny_goals_big_improvements/representation/views/accomplishment/accomplshment_controller.dart';
@@ -29,7 +30,7 @@ class _AccomplishmentUpdateDialogState
       : accomplishment = Accomplishment(
           goal: goal,
           amount: 0,
-          date: DateTime.now(),
+          date: timeNow(),
         );
 
   @override

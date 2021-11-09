@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:logging/logging.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:tiny_goals_big_improvements/core/logger_util.dart';
 import 'package:tiny_goals_big_improvements/representation/views/category/list/category_view.dart';
-import 'package:tiny_goals_big_improvements/representation/views/goal/list/goal_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
-  // Init logger.
-  Logger.root.level = Level.ALL;
-  Logger.root.onRecord.listen((record) {
-    print(
-        '${record.time}: [${record.loggerName}] ${record.level.name}: ${record.message}');
-  });
+  initLogger();
 
   // Need this because of touch issues. See: https://github.com/flutter/flutter/issues/76325
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,6 +33,16 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('de', 'DE'),
+      ],
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
