@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tiny_goals_big_improvements/core/internationalization_util.dart';
 import 'package:tiny_goals_big_improvements/representation/views/category/category_controller.dart';
 import 'package:tiny_goals_big_improvements/representation/views/category/list/category_item_view.dart';
+import 'package:tiny_goals_big_improvements/representation/views/layout/drawer.dart';
 
 class CategoryView extends StatefulWidget {
   final CategoryController categoryController;
@@ -26,7 +27,17 @@ class _CategoryViewState extends State<CategoryView> {
   }
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: Text(l10n(context).core_app_name),
+          backgroundColor: Colors.deepOrange,
+          foregroundColor: Colors.white,
+        ),
+        drawer: getGlobalDrawer(context),
+        body: _build(context),
+      );
+
+  Widget _build(BuildContext context) => Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [

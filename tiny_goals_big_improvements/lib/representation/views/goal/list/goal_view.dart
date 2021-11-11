@@ -29,8 +29,6 @@ class _GoalViewState extends State<GoalView> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
           title: Text(widget.selectedCategory.name),
           backgroundColor: Color(widget.selectedCategory.color),
           foregroundColor:
@@ -38,15 +36,7 @@ class _GoalViewState extends State<GoalView> {
                   ? Colors.black
                   : Colors.white,
         ),
-        body: Center(
-          // Center is a layout widget. It takes a single child and positions it
-          // in the middle of the parent.
-          // child: GoalView(),
-          child: Container(
-            padding: const EdgeInsets.all(16.0),
-            child: _buildGoalList(context),
-          ),
-        ),
+        body: _buildGoalList(context),
       );
 
   Widget _buildGoalList(BuildContext context) => Column(
@@ -55,7 +45,7 @@ class _GoalViewState extends State<GoalView> {
             children: [
               Text(
                 l10n(context).entity_goal,
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               const Spacer(),
               IconButton(

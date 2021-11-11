@@ -2,6 +2,7 @@
   "core_default": "Standart",
   "core_yes": "Ja",
   "core_no": "Nein",
+  "core_app_name": "Tiny Goals Big Improvement",
   "action_save": "Speichern",
   "action_cancel": "Abbrechen",
   "action_edit": "Bearbeiten",
