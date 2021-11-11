@@ -25,6 +25,7 @@
   "entity_goal_times_a_month": "time(s) a month",
   "entity_goal_times_a_year": "time(s) a year",
   "entity_goal_amount": "Amount",
+  "entity_goal_upcoming": "Upcoming",
   "entity_accomplishment": "Accomplishment",
   "entity_accomplishment_reached_goal_question": "Did you reach your goal?\n\n{}",
   "validation_blank": "Please enter some text",

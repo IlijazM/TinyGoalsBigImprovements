@@ -74,7 +74,29 @@ class GoalService {
     }
 
     goal.accomplishments = accomplishments.length;
-
     goal.status = '${goal.accomplishments} / ${goal.repeatCount}';
+
+    _calculatePrio(goal);
+  }
+
+  void _calculatePrio(Goal goal) {
+    int accomplishmentsLeft = goal.repeatCount - (goal.accomplishments ?? 0);
+    int timeMultiplier;
+    int timeLeft;
+
+    switch (goal.repeatType) {
+      case RepeatType.day:
+        timeMultiplier = 1;
+        break;
+      case RepeatType.week:
+        timeMultiplier = 7;
+        break;
+      case RepeatType.month:
+        timeMultiplier = 30;
+        break;
+      case RepeatType.year:
+        timeMultiplier = 360;
+        break;
+    }
   }
 }

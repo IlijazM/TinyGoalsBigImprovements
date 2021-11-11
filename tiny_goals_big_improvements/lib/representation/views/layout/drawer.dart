@@ -25,5 +25,15 @@ Drawer getGlobalDrawer(BuildContext context) => CustomDrawer(
             ),
           ),
         ),
+        const Divider(),
+        DrawerItem(
+          title: l10n(context).entity_goal_upcoming,
+          icon: const Icon(Icons.new_releases),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => GoalView(),
+            ),
+          ),
+        ),
       ],
     );

@@ -20,6 +20,7 @@ class Goal {
   // DTO fields.
   int? accomplishments;
   String? status;
+  int? calculatedPrio;
 
   Goal({
     this.id,

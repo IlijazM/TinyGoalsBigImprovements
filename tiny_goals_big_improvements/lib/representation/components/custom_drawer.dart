@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomDrawer extends Drawer {
   String title;
-  List<DrawerItem> items;
+  List<Widget> items;
 
   CustomDrawer({
     required this.title,
