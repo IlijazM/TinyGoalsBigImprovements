@@ -23,10 +23,16 @@ class GoalService {
     await _goalRepository.save(goal);
   }
 
-  Future<List<Goal>> getAllGoalsByCategory(Category category) async {
+  Future<List<Goal>> getAllGoalsByCategory(Category? category) async {
     _log.info("Request all Goals by category $category.");
 
-    List<Goal> result = await _goalRepository.findAllByCategory(category);
+    List<Goal> result;
+
+    if (category == null) {
+      result = await _goalRepository.findAll();
+    } else {
+      result = await _goalRepository.findAllByCategory(category);
+    }
 
     for (Goal goal in result) {
       await _parseGoal(goal);

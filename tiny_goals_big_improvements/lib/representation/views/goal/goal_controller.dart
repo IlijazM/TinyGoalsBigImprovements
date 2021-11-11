@@ -9,7 +9,7 @@ import 'package:tiny_goals_big_improvements/service/goal_service.dart';
 
 class GoalController {
   List<Goal>? goals;
-  final Category selectedCategory;
+  final Category? selectedCategory;
 
   final GoalService _goalService;
 

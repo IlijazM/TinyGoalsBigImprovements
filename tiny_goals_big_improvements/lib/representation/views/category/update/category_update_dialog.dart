@@ -81,7 +81,7 @@ class _CategoryUpdateDialogState extends State<CategoryUpdateDialog> {
             mainAxisSize: MainAxisSize.min,
             children: [
               _buildNameTextField(),
-              _buildDescriptionTextField(),
+              // _buildDescriptionTextField(),
               _buildColorPicker(),
               _buildIconPicker(),
               _buildFormControllButtons(),

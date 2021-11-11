@@ -24,8 +24,11 @@ class GoalUpdateDialog extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _GoalUpdateDialogState createState() =>
-      _GoalUpdateDialogState(goal, goalController.selectedCategory);
+  _GoalUpdateDialogState createState() => _GoalUpdateDialogState(
+        goal,
+        // The dialog will not get triggered if the selected category is null so we can assume that the selected category is present.
+        goal?.category ?? goalController.selectedCategory!,
+      );
 }
 
 class _GoalUpdateDialogState extends State<GoalUpdateDialog> {
@@ -85,7 +88,7 @@ class _GoalUpdateDialogState extends State<GoalUpdateDialog> {
             mainAxisSize: MainAxisSize.min,
             children: [
               _buildActivityTextField(),
-              _buildDescriptionTextField(),
+              // _buildDescriptionTextField(),
               _buildRepeatOption(),
               // _buildAmountOption(),
               _buildFormControllButtons(),

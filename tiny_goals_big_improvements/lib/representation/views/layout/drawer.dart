@@ -1,42 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:tiny_goals_big_improvements/core/internationalization_util.dart';
+import 'package:tiny_goals_big_improvements/representation/components/custom_drawer.dart';
+import 'package:tiny_goals_big_improvements/representation/views/category/list/category_view.dart';
+import 'package:tiny_goals_big_improvements/representation/views/goal/list/goal_view.dart';
 
-Drawer getGlobalDrawer(BuildContext context) => Drawer(
-      // Add a ListView to the drawer. This ensures the user can scroll
-      // through the options in the drawer if there isn't enough vertical
-      // space to fit everything.
-      child: ListView(
-        // Important: Remove any padding from the ListView.
-        padding: EdgeInsets.zero,
-        children: [
-          // DrawerHeader(
-          //   decoration: BoxDecoration(color: Theme.of(context).primaryColor),
-          //   child: const Text('Drawer Header'),
-          // ),
-          ListTile(
-            title: Row(
-              children: [
-                const Icon(Icons.category),
-                const Text('    '),
-                Text(l10n(context).entity_category)
-              ],
+Drawer getGlobalDrawer(BuildContext context) => CustomDrawer(
+      title: l10n(context).core_app_name,
+      items: [
+        DrawerItem(
+          title: l10n(context).entity_category,
+          icon: const Icon(Icons.category),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => CategoryView(),
             ),
-            onTap: () {
-              Navigator.of(context).pop();
-            },
           ),
-          ListTile(
-            title: Row(
-              children: [
-                const Icon(Icons.flag),
-                const Text('    '),
-                Text(l10n(context).entity_goal),
-              ],
+        ),
+        DrawerItem(
+          title: l10n(context).entity_goal,
+          icon: const Icon(Icons.flag),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => GoalView(),
             ),
-            onTap: () {
-              Navigator.of(context).pop();
-            },
           ),
-        ],
-      ),
+        ),
+      ],
     );

@@ -4,13 +4,14 @@ import 'package:tiny_goals_big_improvements/core/internationalization_util.dart'
 import 'package:tiny_goals_big_improvements/domain/category.dart';
 import 'package:tiny_goals_big_improvements/representation/views/goal/goal_controller.dart';
 import 'package:tiny_goals_big_improvements/representation/views/goal/list/goal_item_view.dart';
+import 'package:tiny_goals_big_improvements/representation/views/layout/drawer.dart';
 
 class GoalView extends StatefulWidget {
   final GoalController goalController;
 
-  final Category selectedCategory;
+  final Category? selectedCategory;
 
-  GoalView({Key? key, required this.selectedCategory})
+  GoalView({Key? key, this.selectedCategory})
       : goalController = GoalController(selectedCategory: selectedCategory),
         super(key: key);
 
@@ -29,14 +30,24 @@ class _GoalViewState extends State<GoalView> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text(widget.selectedCategory.name),
-          backgroundColor: Color(widget.selectedCategory.color),
-          foregroundColor:
-              Color(widget.selectedCategory.color).computeLuminance() > 0.5
-                  ? Colors.black
-                  : Colors.white,
+          title:
+              Text(widget.selectedCategory?.name ?? l10n(context).entity_goal),
+          backgroundColor: Color(widget.selectedCategory?.color ??
+              Theme.of(context).primaryColor.value),
+          foregroundColor: Color(widget.selectedCategory?.color ??
+                          Theme.of(context).primaryColor.value)
+                      .computeLuminance() >
+                  0.5
+              ? Colors.black
+              : Colors.white,
         ),
-        body: _buildGoalList(context),
+        drawer: widget.goalController.selectedCategory != null
+            ? null
+            : getGlobalDrawer(context),
+        body: Container(
+          padding: const EdgeInsets.all(16.0),
+          child: _buildGoalList(context),
+        ),
       );
 
   Widget _buildGoalList(BuildContext context) => Column(
@@ -48,10 +59,15 @@ class _GoalViewState extends State<GoalView> {
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               const Spacer(),
-              IconButton(
-                onPressed: () => widget.goalController.requestCreate(context),
-                icon: const Icon(Icons.add_circle),
-              ),
+
+              // Only show the plus button when there is a category selected.
+              widget.goalController.selectedCategory == null
+                  ? const SizedBox()
+                  : IconButton(
+                      onPressed: () =>
+                          widget.goalController.requestCreate(context),
+                      icon: const Icon(Icons.add_circle),
+                    ),
             ],
           ),
           _buildListView(),
