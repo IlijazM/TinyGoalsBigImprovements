@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tiny_goals_big_improvements/core/internationalization_util.dart';
 import 'package:tiny_goals_big_improvements/domain/category.dart';
 import 'package:tiny_goals_big_improvements/representation/views/goal/goal_controller.dart';
 import 'package:tiny_goals_big_improvements/representation/views/goal/list/goal_item_view.dart';
@@ -52,9 +53,8 @@ class _GoalViewState extends State<GoalView> {
         children: [
           Row(
             children: [
-              const Text(
-                // TODO: translate
-                'Goals',
+              Text(
+                l10n(context).entity_goal,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               const Spacer(),

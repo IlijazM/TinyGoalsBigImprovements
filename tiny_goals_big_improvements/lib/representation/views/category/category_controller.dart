@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tiny_goals_big_improvements/core/internationalization_util.dart';
 import 'package:tiny_goals_big_improvements/domain/category.dart';
 import 'package:tiny_goals_big_improvements/representation/views/category/update/category_update_dialog.dart';
 import 'package:tiny_goals_big_improvements/representation/views/goal/list/goal_view.dart';
@@ -71,22 +72,23 @@ class CategoryController {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        // TODO: translate
         return AlertDialog(
-          title: Text("Delete Category"),
-          content: Text(
-            "Are you sure you want to delete the Category '${category.name}'?",
-          ),
+          title: Text(l10n(context)
+              .entity_delete
+              .replaceAll('{}', l10n(context).entity_category)),
+          content: Text(l10n(context)
+              .entity_delete_confirmation
+              .replaceFirst('{}', l10n(context).entity_category)),
           actions: [
             ElevatedButton(
-              child: const Text('Yes'),
+              child: Text(l10n(context).core_yes),
               onPressed: () {
                 delete(category);
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('No'),
+              child: Text(l10n(context).core_no),
               onPressed: () {
                 Navigator.of(context).pop();
               },

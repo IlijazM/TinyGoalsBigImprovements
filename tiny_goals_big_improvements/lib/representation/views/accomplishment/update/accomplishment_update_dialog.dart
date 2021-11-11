@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tiny_goals_big_improvements/core/date_util.dart';
+import 'package:tiny_goals_big_improvements/core/internationalization_util.dart';
 import 'package:tiny_goals_big_improvements/domain/accomplishment.dart';
 import 'package:tiny_goals_big_improvements/domain/goal.dart';
 import 'package:tiny_goals_big_improvements/representation/views/accomplishment/accomplshment_controller.dart';
@@ -36,13 +37,15 @@ class _AccomplishmentUpdateDialogState
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Accomplishment'),
+      title: Text(l10n(context).entity_accomplishment),
       content: Text(
-        'Did you reach your goal?\n\n${accomplishment.goal.activity}',
+        l10n(context)
+            .entity_accomplishment_reached_goal_question
+            .replaceFirst('{}', accomplishment.goal.activity),
       ),
       actions: [
         ElevatedButton(
-          child: const Text('Yes'),
+          child: Text(l10n(context).core_yes),
           onPressed: () {
             widget.accomplishmentController.create(accomplishment);
             widget.onSave();
@@ -50,7 +53,7 @@ class _AccomplishmentUpdateDialogState
           },
         ),
         TextButton(
-          child: const Text('No'),
+          child: Text(l10n(context).core_no),
           onPressed: () {
             Navigator.of(context).pop();
           },

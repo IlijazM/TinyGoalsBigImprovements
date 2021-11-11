@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tiny_goals_big_improvements/core/internationalization_util.dart';
 import 'package:tiny_goals_big_improvements/domain/category.dart';
 import 'package:tiny_goals_big_improvements/domain/goal.dart';
 import 'package:tiny_goals_big_improvements/domain/repeat_type.dart';
@@ -29,15 +30,20 @@ class GoalUpdateDialog extends StatefulWidget {
 
 class _GoalUpdateDialogState extends State<GoalUpdateDialog> {
   Goal goal;
+  bool _update;
+  bool _nameNotSet;
 
   bool _showAmount = false;
 
   final _formKey = GlobalKey<FormState>();
 
   _GoalUpdateDialogState(Goal? _goal, Category selectedCategory)
-      : goal = _goal ??
+      : _update = _goal != null,
+        _nameNotSet = _goal == null,
+        goal = _goal ??
             Goal(
-              activity: 'New Goal',
+              // We need the build context for internationalization so we set the name later.
+              activity: '',
               amount: 1,
               repeatCount: 1,
               repeatType: RepeatType.day,
@@ -46,8 +52,23 @@ class _GoalUpdateDialogState extends State<GoalUpdateDialog> {
 
   @override
   Widget build(BuildContext context) {
+    // Set the default name.
+    // We need the build context for internationalization.
+    if (_nameNotSet) {
+      goal.activity = l10n(context)
+          .entity_new
+          .replaceFirst('{}', l10n(context).entity_goal);
+      _nameNotSet = false;
+    }
+
     return CustomDialog(
-      title: 'Update Goal',
+      title: _update
+          ? l10n(context)
+              .entity_update
+              .replaceFirst('{}', l10n(context).entity_goal)
+          : l10n(context)
+              .entity_create
+              .replaceFirst('{}', l10n(context).entity_goal),
       children: [
         _buildForm(),
       ],
@@ -74,14 +95,14 @@ class _GoalUpdateDialogState extends State<GoalUpdateDialog> {
       );
 
   Widget _buildActivityTextField() => CustomTextField(
-        labelText: 'Name',
+        labelText: l10n(context).entity_goal_activity,
         validator: _activityValidator,
         initialValue: goal.activity,
         onChange: (value) => goal.activity = value,
       );
 
   Widget _buildDescriptionTextField() => CustomTextArea(
-        labelText: 'Description',
+        labelText: l10n(context).entity_goal_description,
         validator: _descriptionValidator,
         initialValue: goal.description,
         onChange: (value) => goal.description = value,
@@ -94,14 +115,14 @@ class _GoalUpdateDialogState extends State<GoalUpdateDialog> {
           children: [
             Expanded(
               child: CustomTextField(
-                labelText: 'How many times',
+                labelText: l10n(context).entity_goal_repeatCount,
                 keyboardType: TextInputType.number,
                 initialValue: goal.repeatCount.toString(),
                 onChange: (value) => goal.repeatCount = int.parse(value),
               ),
             ),
             Container(
-              padding: EdgeInsets.fromLTRB(0, 6.0, 0, 0),
+              padding: const EdgeInsets.fromLTRB(0, 6.0, 0, 0),
               height: 61,
               child: CustomDropDown(
                 value: goal.repeatType.toString(),
@@ -109,8 +130,7 @@ class _GoalUpdateDialogState extends State<GoalUpdateDialog> {
                     .map(
                       (e) => DropdownMenuItem(
                         value: e.toString(),
-                        child:
-                            Text('time(s) a ' + e.toString().split('.').last),
+                        child: Text(_repeatTypeToString(e, context)),
                       ),
                     )
                     .toList(),
@@ -133,7 +153,7 @@ class _GoalUpdateDialogState extends State<GoalUpdateDialog> {
           ...(_showAmount
               ? [
                   CustomTextField(
-                    labelText: 'amount',
+                    labelText: l10n(context).entity_goal_amount,
                     initialValue: goal.amount.toString(),
                     onChange: (value) => goal.amount = int.parse(value),
                     keyboardType: TextInputType.number,
@@ -148,11 +168,11 @@ class _GoalUpdateDialogState extends State<GoalUpdateDialog> {
         children: [
           const Spacer(),
           CustomElevatedButton(
-            label: "Save",
+            label: l10n(context).action_save,
             onPressed: _submitFunction,
           ),
           CustomTextButton(
-            label: "Cancel",
+            label: l10n(context).action_cancel,
             onPressed: _cancelFunction,
           ),
         ],
@@ -162,7 +182,13 @@ class _GoalUpdateDialogState extends State<GoalUpdateDialog> {
     if (_formKey.currentState!.validate()) {
       widget.goalController.save(goal);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Saved Goal successfully.')),
+        SnackBar(
+          content: Text(
+            l10n(context)
+                .entity_saved_successfully
+                .replaceFirst('{}', l10n(context).entity_goal),
+          ),
+        ),
       );
       Navigator.pop(context, true);
     }
@@ -174,13 +200,33 @@ class _GoalUpdateDialogState extends State<GoalUpdateDialog> {
 
   String? _activityValidator(String? value) {
     if (value == null || value.isEmpty) {
-      // TODO: translate
-      return 'Please enter some text';
+      return l10n(context).validation_blank;
     }
     return null;
   }
 
   String? _descriptionValidator(String? value) {
     return null;
+  }
+
+  String _repeatTypeToString(RepeatType repeatType, BuildContext context) {
+    switch (repeatType) {
+      case RepeatType.day:
+        {
+          return l10n(context).entity_goal_times_a_day;
+        }
+      case RepeatType.week:
+        {
+          return l10n(context).entity_goal_times_a_week;
+        }
+      case RepeatType.month:
+        {
+          return l10n(context).entity_goal_times_a_month;
+        }
+      case RepeatType.year:
+        {
+          return l10n(context).entity_goal_times_a_year;
+        }
+    }
   }
 }

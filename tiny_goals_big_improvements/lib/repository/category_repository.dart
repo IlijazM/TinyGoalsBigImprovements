@@ -11,11 +11,11 @@ class CategoryRepository {
     Database database = await getDatabase();
 
     if (entity.id == null) {
-      _log.fine('Inserting Category: ${entity.toMap()}.');
+      _log.fine('Inserting Category: ${toMap(entity)}.');
 
       DateTime dateTimeBefore = DateTime.now();
 
-      int id = await database.insert(Category.tableName, entity.toMap());
+      int id = await database.insert(Category.tableName, toMap(entity));
       entity.id = id;
 
       DateTime dateTimeAfter = DateTime.now();
@@ -23,11 +23,11 @@ class CategoryRepository {
           'Inserted Category successfully. It took ${dateTimeAfter.difference(dateTimeBefore).inMicroseconds}µs');
       _log.finer('Inserted Category successfully. Got id $id.');
     } else {
-      _log.fine('Updating Category: ${entity.toMap()}.');
+      _log.fine('Updating Category: ${toMap(entity)}.');
 
       DateTime dateTimeBefore = DateTime.now();
 
-      int id = await database.update(Category.tableName, entity.toMap(),
+      int id = await database.update(Category.tableName, toMap(entity),
           where: 'id = ?', whereArgs: [entity.id]);
 
       DateTime dateTimeAfter = DateTime.now();
@@ -57,7 +57,9 @@ class CategoryRepository {
     _log.fine(
         'Successfully queried all Categories. It took ${dateTimeAfter.difference(dateTimeBefore).inMicroseconds}µs');
 
-    result = queryResult.map((e) => Category.fromMap(e)).toList();
+    for (Map<String, Object?> map in queryResult) {
+      result.add(await fromMap(map));
+    }
 
     return result;
   }

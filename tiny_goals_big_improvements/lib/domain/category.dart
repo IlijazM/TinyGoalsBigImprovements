@@ -28,39 +28,6 @@ class Category {
     required this.icon,
   });
 
-  Category.fromMap(final Map<String, dynamic> map) {
-    fromMap(map);
-  }
-
-  Map<String, dynamic> toMap() => {
-        'id': id,
-        'name': name,
-        'description': description,
-        'color': color,
-        'icon': icon,
-      };
-
-  void fromMap(final Map<String, dynamic> map) {
-    _log.fine('Parses $map to Category.');
-
-    assert(map.containsKey('id'),
-        'Failed parsing map to domain model "Category": The inputted map doesn\'t contain the field "id"');
-    assert(map.containsKey('name'),
-        'Failed parsing map to domain model "Category": The inputted map doesn\'t contain the field "name"');
-    assert(map.containsKey('description'),
-        'Failed parsing map to domain model "Category": The inputted map doesn\'t contain the field "description"');
-    assert(map.containsKey('color'),
-        'Failed parsing map to domain model "Category": The inputted map doesn\'t contain the field "color"');
-    assert(map.containsKey('icon'),
-        'Failed parsing map to domain model "Category": The inputted map doesn\'t contain the field "icon"');
-
-    id = map['id'];
-    name = map['name'];
-    description = map['description'];
-    color = int.parse(map['color']);
-    icon = map['icon'];
-  }
-
   @override
   String toString() {
     return 'Category{' +

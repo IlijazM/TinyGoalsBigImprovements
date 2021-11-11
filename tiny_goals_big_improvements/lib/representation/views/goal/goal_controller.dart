@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tiny_goals_big_improvements/core/internationalization_util.dart';
 import 'package:tiny_goals_big_improvements/domain/category.dart';
 import 'package:tiny_goals_big_improvements/domain/goal.dart';
 import 'package:tiny_goals_big_improvements/representation/views/accomplishment/update/accomplishment_update_dialog.dart';
@@ -61,20 +62,24 @@ class GoalController {
       builder: (BuildContext context) {
         // TODO: translate
         return AlertDialog(
-          title: Text("Delete goal"),
+          title: Text(l10n(context)
+              .entity_delete
+              .replaceFirst('{}', l10n(context).entity_goal)),
           content: Text(
-            "Are you sure you want to delete the Goal '${goal.activity}'?",
+            l10n(context)
+                .entity_delete_confirmation
+                .replaceFirst('{}', l10n(context).entity_goal),
           ),
           actions: [
             ElevatedButton(
-              child: const Text('Yes'),
+              child: Text(l10n(context).core_yes),
               onPressed: () {
                 delete(goal);
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('No'),
+              child: Text(l10n(context).core_no),
               onPressed: () {
                 Navigator.of(context).pop();
               },

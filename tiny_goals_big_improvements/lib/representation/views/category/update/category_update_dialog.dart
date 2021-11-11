@@ -31,24 +31,40 @@ class CategoryUpdateDialog extends StatefulWidget {
 class _CategoryUpdateDialogState extends State<CategoryUpdateDialog> {
   Category category;
   bool _update;
+  bool _nameNotSet;
 
   final _formKey = GlobalKey<FormState>();
 
   _CategoryUpdateDialogState(Category? _category)
       : _update = _category != null,
+        _nameNotSet = _category == null,
         category = _category ??
             Category(
-              name: 'New Category',
+              // We need the build context for internationalization so we set the name later.
+              name: '',
               color: Colors.blue.value,
               icon: '0xe163',
             );
 
   @override
   Widget build(BuildContext context) {
+    // Set the default name.
+    // We need the build context for internationalization.
+    if (_nameNotSet) {
+      category.name = l10n(context)
+          .entity_new
+          .replaceFirst('{}', l10n(context).entity_category);
+      _nameNotSet = false;
+    }
+
     return CustomDialog(
       title: _update
-          ? l10n(context).entity_category_update
-          : l10n(context).entity_category_create,
+          ? l10n(context)
+              .entity_update
+              .replaceFirst('{}', l10n(context).entity_category)
+          : l10n(context)
+              .entity_create
+              .replaceFirst('{}', l10n(context).entity_category),
       children: [
         _buildForm(),
       ],
@@ -75,14 +91,14 @@ class _CategoryUpdateDialogState extends State<CategoryUpdateDialog> {
       );
 
   Widget _buildNameTextField() => CustomTextField(
-        labelText: 'Name',
+        labelText: l10n(context).entity_category_name,
         validator: _nameValidator,
         initialValue: category.name,
         onChange: (value) => category.name = value,
       );
 
   Widget _buildDescriptionTextField() => CustomTextArea(
-        labelText: 'Description',
+        labelText: l10n(context).entity_category_description,
         validator: _descriptionValidator,
         initialValue: category.description,
         onChange: (value) => category.description = value,
@@ -103,7 +119,10 @@ class _CategoryUpdateDialogState extends State<CategoryUpdateDialog> {
           DropdownMenuItem(
             value: '0xe163',
             child: Row(
-              children: const [Icon(Icons.circle), Text('   Default')],
+              children: [
+                const Icon(Icons.circle),
+                Text('   ${l10n(context).core_default}')
+              ],
             ),
           ),
           ...categoryIcons
@@ -111,7 +130,10 @@ class _CategoryUpdateDialogState extends State<CategoryUpdateDialog> {
                 (icon) => DropdownMenuItem(
                   value: icon.iconData.codePoint.toString(),
                   child: Row(
-                    children: [Icon(icon.iconData), Text('   ' + icon.name)],
+                    children: [
+                      Icon(icon.iconData),
+                      Text('   ' + icon.name(context))
+                    ],
                   ),
                 ),
               )
@@ -123,11 +145,11 @@ class _CategoryUpdateDialogState extends State<CategoryUpdateDialog> {
         children: [
           const Spacer(),
           CustomElevatedButton(
-            label: "Save",
+            label: l10n(context).action_save,
             onPressed: _submitFunction,
           ),
           CustomTextButton(
-            label: "Cancel",
+            label: l10n(context).action_cancel,
             onPressed: _cancelFunction,
           ),
         ],
@@ -137,7 +159,13 @@ class _CategoryUpdateDialogState extends State<CategoryUpdateDialog> {
     if (_formKey.currentState!.validate()) {
       widget.categoryController.save(category);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Saved Category successfully.')),
+        SnackBar(
+          content: Text(
+            l10n(context)
+                .entity_saved_successfully
+                .replaceFirst("{}", l10n(context).entity_category),
+          ),
+        ),
       );
       Navigator.pop(context, true);
     }
@@ -149,8 +177,7 @@ class _CategoryUpdateDialogState extends State<CategoryUpdateDialog> {
 
   String? _nameValidator(String? value) {
     if (value == null || value.isEmpty) {
-      // TODO: translate
-      return 'Please enter some text';
+      return l10n(context).validation_blank;
     }
     return null;
   }
