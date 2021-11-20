@@ -43,6 +43,28 @@ class GoalService {
     return result;
   }
 
+  Future<List<Goal>> getAllGoalsByPriority(Category? category) async {
+    _log.info("Request all Goals by priority and $category.");
+
+    List<Goal> result;
+
+    if (category == null) {
+      result = await _goalRepository.findAll();
+    } else {
+      result = await _goalRepository.findAllByCategory(category);
+    }
+
+    for (Goal goal in result) {
+      await _parseGoal(goal);
+    }
+
+    result.sort((a, b) => (a.calculatedPrio ?? 0) - (b.calculatedPrio ?? 0));
+
+    _log.info("Successfully got all Goals. Got ${result.length} in total.");
+
+    return result;
+  }
+
   Future<void> deleteGoal(int id) async {
     _log.info("Request to delete Goal with the id $id.");
 
@@ -75,28 +97,6 @@ class GoalService {
 
     goal.accomplishments = accomplishments.length;
     goal.status = '${goal.accomplishments} / ${goal.repeatCount}';
-
-    _calculatePrio(goal);
-  }
-
-  void _calculatePrio(Goal goal) {
-    int accomplishmentsLeft = goal.repeatCount - (goal.accomplishments ?? 0);
-    int timeMultiplier;
-    int timeLeft;
-
-    switch (goal.repeatType) {
-      case RepeatType.day:
-        timeMultiplier = 1;
-        break;
-      case RepeatType.week:
-        timeMultiplier = 7;
-        break;
-      case RepeatType.month:
-        timeMultiplier = 30;
-        break;
-      case RepeatType.year:
-        timeMultiplier = 360;
-        break;
-    }
+    goal.calculatedPrio = goal.repeatCount - accomplishments.length;
   }
 }
