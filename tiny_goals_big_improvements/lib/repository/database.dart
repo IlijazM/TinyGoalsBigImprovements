@@ -28,6 +28,9 @@ Future<void> _lazyInitDatabase() async {
   if (Platform.isWindows) {
     dbPath = 'D:/database.db';
   }
+  if (Platform.isLinux) {
+    dbPath = '/tmp/database.db';
+  }
   if (Platform.environment.containsKey('FLUTTER_TEST')) {
     dbPath = '/tmp/database.db';
     try {
