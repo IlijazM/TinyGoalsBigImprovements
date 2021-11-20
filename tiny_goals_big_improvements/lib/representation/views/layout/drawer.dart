@@ -13,6 +13,7 @@ Drawer getGlobalDrawer(BuildContext context) => CustomDrawer(
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => CategoryView(),
+              fullscreenDialog: true,
             ),
           ),
         ),
@@ -22,6 +23,7 @@ Drawer getGlobalDrawer(BuildContext context) => CustomDrawer(
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => GoalView(),
+              fullscreenDialog: true,
             ),
           ),
         ),
