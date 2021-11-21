@@ -77,9 +77,11 @@ class GoalItemView extends StatelessWidget {
         child: LinearPercentIndicator(
           lineHeight: 14.0,
           percent: (goal.accomplishments ?? 0) / goal.repeatCount,
-          backgroundColor: Colors.blueGrey,
+          backgroundColor: Colors.grey,
           progressColor: Color(goal.category.color),
-          leading: Text('${goal.accomplishments} / ${goal.repeatCount}'),
+          leading: Container(
+              padding: const EdgeInsets.fromLTRB(0, 0, 8.0, 0),
+              child: Text('${goal.accomplishments} / ${goal.repeatCount}')),
         ),
       );
 
