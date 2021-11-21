@@ -26,6 +26,7 @@
   "entity_goal_times_a_year": "mal jährlich",
   "entity_goal_amount": "Menge",
   "entity_goal_upcoming": "Bevorstehend",
+  "entity_goal_upcoming_title": "Bevorstehende Ziele",
   "entity_accomplishment": "Leistung",
   "entity_accomplishment_reached_goal_question": "Hast du dein Ziel erreicht?\n\n{}",
   "validation_blank": "Bitte gib Text ein",

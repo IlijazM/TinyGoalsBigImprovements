@@ -45,12 +45,12 @@ void main() {
       goal: goal,
     );
 
-    goal = (await goalService.getAllGoalsByCategory(category)).first;
+    goal = (await goalService.getAllGoalsByOptionalCategory(category)).first;
     print(goal.accomplishments);
 
     await accomplishmentService.createAccomplishmentNow(accomplishment1);
 
-    goal = (await goalService.getAllGoalsByCategory(category)).first;
+    goal = (await goalService.getAllGoalsByOptionalCategory(category)).first;
     print(goal.accomplishments);
   });
 }

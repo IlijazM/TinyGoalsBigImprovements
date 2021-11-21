@@ -3,6 +3,8 @@ import 'package:tiny_goals_big_improvements/core/internationalization_util.dart'
 import 'package:tiny_goals_big_improvements/representation/components/custom_drawer.dart';
 import 'package:tiny_goals_big_improvements/representation/views/category/list/category_view.dart';
 import 'package:tiny_goals_big_improvements/representation/views/goal/list/goal_view.dart';
+import 'package:tiny_goals_big_improvements/representation/views/upcoming/list/upcoming_view.dart';
+import 'package:tiny_goals_big_improvements/service/upcoming_service.dart';
 
 Drawer getGlobalDrawer(BuildContext context) => CustomDrawer(
       title: l10n(context).core_app_name,
@@ -33,7 +35,7 @@ Drawer getGlobalDrawer(BuildContext context) => CustomDrawer(
           icon: const Icon(Icons.new_releases),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => GoalView(),
+              builder: (context) => UpcomingView(),
             ),
           ),
         ),

@@ -6,22 +6,31 @@ import 'package:tiny_goals_big_improvements/domain/goal.dart';
 import 'package:tiny_goals_big_improvements/representation/views/accomplishment/update/accomplishment_update_dialog.dart';
 import 'package:tiny_goals_big_improvements/representation/views/goal/update/goal_update_dialog.dart';
 import 'package:tiny_goals_big_improvements/service/goal_service.dart';
+import 'package:tiny_goals_big_improvements/service/upcoming_service.dart';
 
 class GoalController {
   List<Goal>? goals;
   final Category? selectedCategory;
 
   final GoalService _goalService;
+  final UpcomingService _upcomingService;
 
   /// The list of all subscribers.
   final List<Function> _goalsSubscribers = [];
 
-  GoalController({required this.selectedCategory})
-      : _goalService = GoalService();
+  GoalController({this.selectedCategory})
+      : _goalService = GoalService(),
+        _upcomingService = UpcomingService();
 
   query() async {
     goals = null;
-    goals = await _goalService.getAllGoalsByCategory(selectedCategory);
+    goals = await _goalService.getAllGoalsByOptionalCategory(selectedCategory);
+    _notifyGoalsSubscribers();
+  }
+
+  queryUpcoming() async {
+    goals = null;
+    goals = await _upcomingService.getUpcoming(selectedCategory);
     _notifyGoalsSubscribers();
   }
 
@@ -60,7 +69,6 @@ class GoalController {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        // TODO: translate
         return AlertDialog(
           title: Text(l10n(context)
               .entity_delete

@@ -23,7 +23,7 @@ class GoalService {
     await _goalRepository.save(goal);
   }
 
-  Future<List<Goal>> getAllGoalsByCategory(Category? category) async {
+  Future<List<Goal>> getAllGoalsByOptionalCategory(Category? category) async {
     _log.info("Request all Goals by category $category.");
 
     List<Goal> result;
@@ -58,6 +58,7 @@ class GoalService {
       await _parseGoal(goal);
     }
 
+    // sort the goals by priority
     result.sort((a, b) => (a.calculatedPrio ?? 0) - (b.calculatedPrio ?? 0));
 
     _log.info("Successfully got all Goals. Got ${result.length} in total.");
@@ -79,24 +80,30 @@ class GoalService {
         case RepeatType.day:
           accomplishments =
               await _accomplishmentRepository.findAllThisDay(goal.id!);
+          goal.calculatedPrio = goal.repeatCount - accomplishments.length;
           break;
         case RepeatType.week:
           accomplishments =
               await _accomplishmentRepository.findAllThisWeek(goal.id!);
+          goal.calculatedPrio =
+              (goal.repeatCount - accomplishments.length) * 100;
           break;
         case RepeatType.month:
           accomplishments =
               await _accomplishmentRepository.findAllThisMonth(goal.id!);
+          goal.calculatedPrio =
+              (goal.repeatCount - accomplishments.length) * 10000;
           break;
         case RepeatType.year:
           accomplishments =
               await _accomplishmentRepository.findAllThisYear(goal.id!);
+          goal.calculatedPrio =
+              (goal.repeatCount - accomplishments.length) * 1000000;
           break;
       }
     }
 
     goal.accomplishments = accomplishments.length;
     goal.status = '${goal.accomplishments} / ${goal.repeatCount}';
-    goal.calculatedPrio = goal.repeatCount - accomplishments.length;
   }
 }
