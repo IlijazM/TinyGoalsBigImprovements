@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:tiny_goals_big_improvements/domain/goal.dart';
 import 'package:tiny_goals_big_improvements/representation/views/goal/goal_controller.dart';
 
@@ -23,13 +24,22 @@ class GoalItemView extends StatelessWidget {
           onTap: () => selectCallback(),
           child: Container(
             padding: const EdgeInsets.all(8.0),
-            child: Row(
+            child: Flex(
+              mainAxisSize: MainAxisSize.max,
+              direction: Axis.vertical,
               children: [
-                _buildIcon(),
-                _buildText(),
-                _buildStatus(),
-                const Spacer(),
-                ..._buildActionButtons(),
+                Row(
+                  children: [
+                    _buildIcon(),
+                    _buildText(),
+                    // const Spacer(),
+                    ..._buildActionButtons(),
+                  ],
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0, 0),
+                  child: _buildStatus(),
+                ),
               ],
             ),
           ),
@@ -43,23 +53,35 @@ class GoalItemView extends StatelessWidget {
               ? Colors.black
               : Colors.white,
           child: Icon(
-            IconData(int.parse(goal.category.icon),
-                fontFamily: 'MaterialIcons'),
+            IconData(
+              int.parse(goal.category.icon),
+              fontFamily: 'MaterialIcons',
+            ),
           ),
         ),
       );
 
-  Widget _buildText() => Column(
-        children: [
-          Text(
+  Widget _buildText() => Expanded(
+        child: Container(
+          padding: const EdgeInsets.only(right: 0.0),
+          child: Text(
             goal.activity,
             style: const TextStyle(fontWeight: FontWeight.bold),
+            overflow: TextOverflow.ellipsis,
           ),
-          // Text(category.description ?? ''),
-        ],
+        ),
       );
 
-  Widget _buildStatus() => Text(goal.status ?? '');
+  Widget _buildStatus() => SizedBox(
+        width: double.infinity,
+        child: LinearPercentIndicator(
+          lineHeight: 14.0,
+          percent: (goal.accomplishments ?? 0) / goal.repeatCount,
+          backgroundColor: Colors.blueGrey,
+          progressColor: Color(goal.category.color),
+          leading: Text('${goal.accomplishments} / ${goal.repeatCount}'),
+        ),
+      );
 
   List<Widget> _buildActionButtons() => [
         IconButton(
