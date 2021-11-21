@@ -43,29 +43,6 @@ class GoalService {
     return result;
   }
 
-  Future<List<Goal>> getAllGoalsByPriority(Category? category) async {
-    _log.info("Request all Goals by priority and $category.");
-
-    List<Goal> result;
-
-    if (category == null) {
-      result = await _goalRepository.findAll();
-    } else {
-      result = await _goalRepository.findAllByCategory(category);
-    }
-
-    for (Goal goal in result) {
-      await _parseGoal(goal);
-    }
-
-    // sort the goals by priority
-    result.sort((a, b) => (b.calculatedPrio ?? 0) - (a.calculatedPrio ?? 0));
-
-    _log.info("Successfully got all Goals. Got ${result.length} in total.");
-
-    return result;
-  }
-
   Future<void> deleteGoal(int id) async {
     _log.info("Request to delete Goal with the id $id.");
 
