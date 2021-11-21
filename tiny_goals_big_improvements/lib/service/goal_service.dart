@@ -59,7 +59,7 @@ class GoalService {
     }
 
     // sort the goals by priority
-    result.sort((a, b) => (a.calculatedPrio ?? 0) - (b.calculatedPrio ?? 0));
+    result.sort((a, b) => (b.calculatedPrio ?? 0) - (a.calculatedPrio ?? 0));
 
     _log.info("Successfully got all Goals. Got ${result.length} in total.");
 
