@@ -8,6 +8,7 @@ import 'package:tiny_goals_big_improvements/repository/goal_repository.dart';
 import 'database.dart';
 
 class AccomplishmentRepository {
+  static final AccomplishmentRepository instance = AccomplishmentRepository();
   static final _log = Logger('AccomplishmentRepository');
 
   GoalRepository goalRepository = GoalRepository();
@@ -109,13 +110,29 @@ class AccomplishmentRepository {
 
     DateTime dateTimeBefore = DateTime.now();
 
-    int result = await database
+    await database
         .delete(Accomplishment.tableName, where: 'id = ?', whereArgs: [id]);
 
     DateTime dateTimeAfter = DateTime.now();
 
     _log.fine(
         'Successfully deleted the Accomplishment with the id $id. It took ${dateTimeAfter.difference(dateTimeBefore).inMicroseconds}µs');
+  }
+
+  Future<void> deleteByGoalId(int id) async {
+    Database database = await getDatabase();
+
+    _log.fine('Deleting all Accomplishments with the goal id $id.');
+
+    DateTime dateTimeBefore = DateTime.now();
+
+    await database.delete(Accomplishment.tableName,
+        where: 'goal_id = ?', whereArgs: [id]);
+
+    DateTime dateTimeAfter = DateTime.now();
+
+    _log.fine(
+        'Successfully deleted all Accomplishments with goal id $id. It took ${dateTimeAfter.difference(dateTimeBefore).inMicroseconds}µs');
   }
 
   Map<String, dynamic> toMap(Accomplishment accomplishment) => {

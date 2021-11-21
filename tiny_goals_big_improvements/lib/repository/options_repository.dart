@@ -2,6 +2,8 @@ import 'package:sqflite/sqlite_api.dart';
 import 'package:tiny_goals_big_improvements/repository/database.dart';
 
 class OptionsRepository {
+  static final OptionsRepository instance = OptionsRepository();
+
   Future<String?> getLanguage() async {
     Database database = await getDatabase();
 

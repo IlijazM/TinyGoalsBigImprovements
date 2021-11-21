@@ -1,10 +1,14 @@
 import 'package:logging/logging.dart';
 import 'package:sqflite/sqlite_api.dart';
 import 'package:tiny_goals_big_improvements/domain/category.dart';
+import 'package:tiny_goals_big_improvements/domain/goal.dart';
+import 'package:tiny_goals_big_improvements/repository/goal_repository.dart';
 
 import 'database.dart';
 
 class CategoryRepository {
+  static final CategoryRepository instance = CategoryRepository();
+
   static final _log = Logger('CategoryRepository');
 
   Future<void> save(final Category entity) async {
@@ -72,6 +76,8 @@ class CategoryRepository {
     Database database = await getDatabase();
 
     _log.fine('Deleting the Category with the id $id.');
+
+    await GoalRepository.instance.deleteByCategoryId(id);
 
     DateTime dateTimeBefore = DateTime.now();
 

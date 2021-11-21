@@ -1,16 +1,18 @@
 import 'package:logging/logging.dart';
 import 'package:sqflite/sqlite_api.dart';
+import 'package:tiny_goals_big_improvements/domain/accomplishment.dart';
 import 'package:tiny_goals_big_improvements/domain/category.dart';
 import 'package:tiny_goals_big_improvements/domain/goal.dart';
 import 'package:tiny_goals_big_improvements/domain/repeat_type.dart';
+import 'package:tiny_goals_big_improvements/repository/accomplishment_repository.dart';
 import 'package:tiny_goals_big_improvements/repository/category_repository.dart';
 
 import 'database.dart';
 
 class GoalRepository {
-  static final _log = Logger('GoalRepository');
+  static final GoalRepository instance = GoalRepository();
 
-  CategoryRepository categoryRepository = CategoryRepository();
+  static final _log = Logger('GoalRepository');
 
   Future<void> save(final Goal entity) async {
     Database database = await getDatabase();
@@ -84,15 +86,25 @@ class GoalRepository {
 
     _log.fine('Deleting the Goal with the id $id.');
 
+    await AccomplishmentRepository.instance.deleteByGoalId(id);
+
     DateTime dateTimeBefore = DateTime.now();
 
-    int result =
-        await database.delete(Goal.tableName, where: 'id = ?', whereArgs: [id]);
+    await database.delete(Goal.tableName, where: 'id = ?', whereArgs: [id]);
 
     DateTime dateTimeAfter = DateTime.now();
 
     _log.fine(
         'Successfully deleted the Goal with the id $id. It took ${dateTimeAfter.difference(dateTimeBefore).inMicroseconds}µs');
+  }
+
+  Future<void> deleteByCategoryId(int id) async {
+    List<Goal> goals =
+        await findWhere(where: 'category_id = ?', whereArgs: [id]);
+
+    for (Goal goal in goals) {
+      await delete(goal.id!);
+    }
   }
 
   Map<String, dynamic> toMap(Goal goal) => {
@@ -121,7 +133,8 @@ class GoalRepository {
     assert(map.containsKey('category_id'),
         'Failed parsing map to domain model "Goal": The inputted map doesn\'t contain the field "category"');
 
-    Category category = await categoryRepository.findById(map['category_id']);
+    Category category =
+        await CategoryRepository.instance.findById(map['category_id']);
 
     return Goal(
       id: map['id'],
