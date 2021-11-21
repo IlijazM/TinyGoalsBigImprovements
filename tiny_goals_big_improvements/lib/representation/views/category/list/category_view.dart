@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tiny_goals_big_improvements/core/internationalization_util.dart';
 import 'package:tiny_goals_big_improvements/representation/views/category/category_controller.dart';
 import 'package:tiny_goals_big_improvements/representation/views/category/list/category_item_view.dart';
+import 'package:tiny_goals_big_improvements/representation/views/layout/app_bar.dart';
 import 'package:tiny_goals_big_improvements/representation/views/layout/drawer.dart';
 
 class CategoryView extends StatefulWidget {
@@ -28,10 +29,9 @@ class _CategoryViewState extends State<CategoryView> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text(l10n(context).core_app_name),
-          backgroundColor: Colors.deepOrange,
-          foregroundColor: Colors.white,
+        appBar: getGlobalAppBar(
+          context: context,
+          title: l10n(context).core_app_name,
         ),
         drawer: getGlobalDrawer(context),
         body: _build(context),

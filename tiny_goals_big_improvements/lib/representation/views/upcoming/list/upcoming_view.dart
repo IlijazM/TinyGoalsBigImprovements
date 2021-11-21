@@ -4,6 +4,7 @@ import 'package:tiny_goals_big_improvements/core/internationalization_util.dart'
 import 'package:tiny_goals_big_improvements/domain/goal.dart';
 import 'package:tiny_goals_big_improvements/representation/views/goal/goal_controller.dart';
 import 'package:tiny_goals_big_improvements/representation/views/goal/list/goal_item_view.dart';
+import 'package:tiny_goals_big_improvements/representation/views/layout/app_bar.dart';
 import 'package:tiny_goals_big_improvements/representation/views/layout/drawer.dart';
 
 class UpcomingView extends StatefulWidget {
@@ -36,8 +37,9 @@ class _UpcomingViewState extends State<UpcomingView> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text(l10n(context).entity_goal_upcoming_title),
+        appBar: getGlobalAppBar(
+          context: context,
+          title: l10n(context).entity_goal_upcoming_title,
         ),
         drawer: getGlobalDrawer(context),
         body: Container(

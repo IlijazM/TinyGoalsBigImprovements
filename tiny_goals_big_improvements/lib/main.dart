@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tiny_goals_big_improvements/core/logger_util.dart';
+import 'package:tiny_goals_big_improvements/repository/options_repository.dart';
+import 'package:tiny_goals_big_improvements/representation/components/restart_widget.dart';
 import 'package:tiny_goals_big_improvements/representation/views/category/list/category_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tiny_goals_big_improvements/representation/views/layout/global.dart';
 
 void main() {
   initLogger();
@@ -10,7 +13,7 @@ void main() {
   // Need this because of touch issues. See: https://github.com/flutter/flutter/issues/76325
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(const MyApp());
+  runApp(RestartWidget(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -19,8 +22,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    if (locale == null) {
+      OptionsRepository().getLanguage().then((res) {
+        locale = res ?? 'en';
+        RestartWidget.restartApp(context);
+      });
+    }
+
     return MaterialApp(
-      locale: const Locale('en'),
+      locale: Locale(locale ?? 'en'),
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

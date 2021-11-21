@@ -4,6 +4,7 @@ import 'package:tiny_goals_big_improvements/core/internationalization_util.dart'
 import 'package:tiny_goals_big_improvements/domain/category.dart';
 import 'package:tiny_goals_big_improvements/representation/views/goal/goal_controller.dart';
 import 'package:tiny_goals_big_improvements/representation/views/goal/list/goal_item_view.dart';
+import 'package:tiny_goals_big_improvements/representation/views/layout/app_bar.dart';
 import 'package:tiny_goals_big_improvements/representation/views/layout/drawer.dart';
 
 class GoalView extends StatefulWidget {
@@ -29,9 +30,9 @@ class _GoalViewState extends State<GoalView> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title:
-              Text(widget.selectedCategory?.name ?? l10n(context).entity_goal),
+        appBar: getGlobalAppBar(
+          context: context,
+          title: widget.selectedCategory?.name ?? l10n(context).entity_goal,
           backgroundColor: Color(widget.selectedCategory?.color ??
               Theme.of(context).primaryColor.value),
           foregroundColor: Color(widget.selectedCategory?.color ??

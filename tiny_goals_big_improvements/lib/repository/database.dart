@@ -83,4 +83,13 @@ _initDb() async {
   ''';
   _log.finest('executing:\n' + sql);
   _databaseSingleton!.execute(sql);
+
+  sql = '''
+  CREATE TABLE IF NOT EXISTS `options` (
+    `key` STRING PRIMARY KEY NOT NULL,
+    `value` STRING NOT NULL
+  );
+  ''';
+  _log.finest('executing:\n' + sql);
+  _databaseSingleton!.execute(sql);
 }
