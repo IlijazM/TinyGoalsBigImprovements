@@ -17,7 +17,7 @@ AppBar getGlobalAppBar(
       actions: [
         IconButton(
           icon: const Icon(Icons.notification_add),
-          onPressed: () => NotificationService().showNotifications(),
+          onPressed: () => NotificationService().scheduleNotification(),
         ),
         IconButton(
           icon: const Icon(Icons.translate),

@@ -1,6 +1,11 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+import 'package:tiny_goals_big_improvements/service/upcoming_service.dart';
 
 class NotificationService {
+  static const int NOTIFICATION_ID = 0;
+
   static final NotificationService _notificationService =
       NotificationService._internal();
 
@@ -9,6 +14,8 @@ class NotificationService {
   }
 
   NotificationService._internal();
+
+  final UpcomingService _upcomingService = UpcomingService();
 
   bool _init = false;
 
@@ -31,14 +38,22 @@ class NotificationService {
       linux: linuxInitializationSettings,
     );
 
+    tz.initializeTimeZones();
+
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
     _init = true;
   }
 
-  Future<void> showNotifications() async {
+  Future<void> scheduleNotification() async {
     if (_init == false) {
       await init();
+    }
+
+    await cancelNotification();
+
+    if ((await _upcomingService.getUpcoming(null)).isEmpty) {
+      return;
     }
 
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
@@ -55,12 +70,20 @@ class NotificationService {
       linux: linuxPlatformChannelSpecifics,
     );
 
-    await flutterLocalNotificationsPlugin.show(
-      0,
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      NOTIFICATION_ID,
       'Notification Title',
       'This is the Notification Body',
+      tz.TZDateTime.now(tz.local).add(const Duration(seconds: 60)),
       platformChannelSpecifics,
       payload: 'Notification Payload',
+      androidAllowWhileIdle: true,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
     );
+  }
+
+  Future<void> cancelNotification() async {
+    await flutterLocalNotificationsPlugin.cancel(NOTIFICATION_ID);
   }
 }
