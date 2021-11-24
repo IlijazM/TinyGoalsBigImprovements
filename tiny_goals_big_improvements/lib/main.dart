@@ -6,12 +6,15 @@ import 'package:tiny_goals_big_improvements/representation/components/restart_wi
 import 'package:tiny_goals_big_improvements/representation/views/category/list/category_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiny_goals_big_improvements/representation/views/layout/global.dart';
+import 'package:tiny_goals_big_improvements/service/notification_service.dart';
 
-void main() {
+Future<void> main() async {
   initLogger();
 
   // Need this because of touch issues. See: https://github.com/flutter/flutter/issues/76325
   WidgetsFlutterBinding.ensureInitialized();
+
+  // await NotificationService().init();
 
   runApp(RestartWidget(child: const MyApp()));
 }

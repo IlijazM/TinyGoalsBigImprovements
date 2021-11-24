@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tiny_goals_big_improvements/main.dart';
 import 'package:tiny_goals_big_improvements/repository/options_repository.dart';
 import 'package:tiny_goals_big_improvements/representation/components/restart_widget.dart';
 import 'package:tiny_goals_big_improvements/representation/views/layout/global.dart';
+import 'package:tiny_goals_big_improvements/service/notification_service.dart';
 
 AppBar getGlobalAppBar(
         {required BuildContext context,
@@ -15,6 +15,10 @@ AppBar getGlobalAppBar(
       backgroundColor: backgroundColor,
       foregroundColor: foregroundColor,
       actions: [
+        IconButton(
+          icon: const Icon(Icons.notification_add),
+          onPressed: () => NotificationService().showNotifications(),
+        ),
         IconButton(
           icon: const Icon(Icons.translate),
           onPressed: () => showPopupMenu(context),
