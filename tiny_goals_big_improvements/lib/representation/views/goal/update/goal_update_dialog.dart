@@ -137,8 +137,9 @@ class _GoalUpdateDialogState extends State<GoalUpdateDialog> {
                       ),
                     )
                     .toList(),
-                onChanged: (value) => goal.repeatType = RepeatType.values
-                    .firstWhere((element) => element.toString() == value),
+                onChanged: (value) => setState(() => goal.repeatType =
+                    RepeatType.values
+                        .firstWhere((element) => element.toString() == value)),
               ),
             ),
           ],
