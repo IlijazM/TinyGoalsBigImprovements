@@ -16,10 +16,6 @@ AppBar getGlobalAppBar(
       foregroundColor: foregroundColor,
       actions: [
         IconButton(
-          icon: const Icon(Icons.notification_add),
-          onPressed: () => NotificationService().scheduleNotification(),
-        ),
-        IconButton(
           icon: const Icon(Icons.translate),
           onPressed: () => showPopupMenu(context),
         ),

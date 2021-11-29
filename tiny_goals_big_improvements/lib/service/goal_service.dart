@@ -5,6 +5,7 @@ import 'package:tiny_goals_big_improvements/domain/goal.dart';
 import 'package:tiny_goals_big_improvements/domain/repeat_type.dart';
 import 'package:tiny_goals_big_improvements/repository/accomplishment_repository.dart';
 import 'package:tiny_goals_big_improvements/repository/goal_repository.dart';
+import 'package:tiny_goals_big_improvements/service/notification_service.dart';
 
 class GoalService {
   static final _log = Logger('GoalService');
@@ -21,6 +22,8 @@ class GoalService {
     _log.info("Request to create or update a Goal.");
 
     await _goalRepository.save(goal);
+
+    await NotificationService.instance.scheduleNotification();
   }
 
   Future<List<Goal>> getAllGoalsByOptionalCategory(Category? category) async {
@@ -46,7 +49,9 @@ class GoalService {
   Future<void> deleteGoal(int id) async {
     _log.info("Request to delete Goal with the id $id.");
 
-    _goalRepository.delete(id);
+    await _goalRepository.delete(id);
+
+    await NotificationService.instance.scheduleNotification();
   }
 
   Future<void> _parseGoal(Goal goal) async {

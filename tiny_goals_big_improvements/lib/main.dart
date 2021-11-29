@@ -14,7 +14,7 @@ Future<void> main() async {
   // Need this because of touch issues. See: https://github.com/flutter/flutter/issues/76325
   WidgetsFlutterBinding.ensureInitialized();
 
-  await NotificationService().init();
+  await NotificationService.instance.scheduleNotification();
 
   runApp(RestartWidget(child: const MyApp()));
 }
