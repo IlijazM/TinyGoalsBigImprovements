@@ -12,7 +12,9 @@ class UpcomingView extends StatefulWidget {
 
   UpcomingView({Key? key})
       : goalController = GoalController(),
-        super(key: key);
+        super(key: key) {
+    goalController.onlyUpcoming = true;
+  }
 
   @override
   _UpcomingViewState createState() => _UpcomingViewState();
@@ -23,7 +25,7 @@ class _UpcomingViewState extends State<UpcomingView> {
 
   @override
   void initState() {
-    widget.goalController.queryUpcoming();
+    widget.goalController.query();
     widget.goalController.subscribeToGoals(
       () => setState(
         () => {

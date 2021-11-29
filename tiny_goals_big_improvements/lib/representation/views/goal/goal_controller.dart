@@ -18,19 +18,20 @@ class GoalController {
   /// The list of all subscribers.
   final List<Function> _goalsSubscribers = [];
 
+  bool onlyUpcoming = false;
+
   GoalController({this.selectedCategory})
       : _goalService = GoalService(),
         _upcomingService = UpcomingService();
 
   query() async {
     goals = null;
-    goals = await _goalService.getAllGoalsByOptionalCategory(selectedCategory);
-    _notifyGoalsSubscribers();
-  }
-
-  queryUpcoming() async {
-    goals = null;
-    goals = await _upcomingService.getUpcoming(selectedCategory);
+    if (onlyUpcoming) {
+      goals = await _upcomingService.getUpcoming(selectedCategory);
+    } else {
+      goals =
+          await _goalService.getAllGoalsByOptionalCategory(selectedCategory);
+    }
     _notifyGoalsSubscribers();
   }
 
