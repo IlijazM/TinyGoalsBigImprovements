@@ -42,9 +42,9 @@ class GoalController {
     query();
   }
 
-  delete(Goal goal) {
+  delete(Goal goal) async {
     // The id is ensure here because we only get list items for attached models.
-    _goalService.deleteGoal(goal.id!);
+    await _goalService.deleteGoal(goal.id!);
 
     // Reload
     query();

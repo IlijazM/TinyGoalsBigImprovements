@@ -34,9 +34,9 @@ class CategoryController {
     query();
   }
 
-  delete(Category category) {
+  delete(Category category) async {
     // The id is ensure here because we only get list items for attached models.
-    _categoryService.deleteCategory(category.id!);
+    await _categoryService.deleteCategory(category.id!);
 
     // Reload
     query();
