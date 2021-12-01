@@ -1,1 +1,1 @@
-enum RepeatType { daily, weekly, monthly, yearly }
+enum RepeatType { day, week, month, year }
