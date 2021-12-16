@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:tiny_goals_big_improvements/repository/options_repository.dart';
 import 'package:tiny_goals_big_improvements/representation/components/restart_widget.dart';
 import 'package:tiny_goals_big_improvements/representation/views/layout/global.dart';
-import 'package:tiny_goals_big_improvements/service/notification_service.dart';
 
 AppBar getGlobalAppBar(
         {required BuildContext context,

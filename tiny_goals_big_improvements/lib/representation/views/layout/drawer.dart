@@ -4,7 +4,6 @@ import 'package:tiny_goals_big_improvements/representation/components/custom_dra
 import 'package:tiny_goals_big_improvements/representation/views/category/list/category_view.dart';
 import 'package:tiny_goals_big_improvements/representation/views/goal/list/goal_view.dart';
 import 'package:tiny_goals_big_improvements/representation/views/upcoming/list/upcoming_view.dart';
-import 'package:tiny_goals_big_improvements/service/upcoming_service.dart';
 
 Drawer getGlobalDrawer(BuildContext context) => CustomDrawer(
       title: l10n(context).core_app_name,
