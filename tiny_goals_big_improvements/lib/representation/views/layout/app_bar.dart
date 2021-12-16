@@ -13,6 +13,8 @@ AppBar getGlobalAppBar(
       title: Text(title),
       backgroundColor: backgroundColor,
       foregroundColor: foregroundColor,
+      // removes the shadow
+      elevation: 0,
       actions: [
         IconButton(
           icon: const Icon(Icons.translate),
